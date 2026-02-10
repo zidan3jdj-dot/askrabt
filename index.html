@@ -500,86 +500,82 @@ body::before {
     margin-bottom: 25px;
 }
 
+/* ===== التصميم الجديد للتفاح (مثل التصميم الأصلي) ===== */
+.game-board {
+    background: #0f0620;
+    border-radius: 20px;
+    padding: 15px;
+}
+
+.board {
+    display: flex;
+    flex-direction: column-reverse; /* الأهم - لعرض من تحت لفوق */
+    gap: 10px;
+}
+
 .game-row {
     display: flex;
     align-items: center;
-    margin-bottom: 15px;
-    padding: 15px;
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 16px;
-    animation: slideIn 0.5s ease-out forwards;
+    animation: rise 0.45s ease forwards;
     opacity: 0;
-    transform: translateX(-20px);
 }
 
-@keyframes slideIn {
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
+@keyframes rise {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .multiplier {
-    width: 100px;
+    width: 65px;
     text-align: center;
-    background: var(--gradient);
+    background: #1c0d36;
     border-radius: 12px;
-    padding: 12px 0;
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: var(--light);
-    margin-left: 15px;
+    padding: 6px 0;
+    font-size: 0.85rem;
+    margin-left: 8px;
     flex-shrink: 0;
-    box-shadow: 0 5px 15px rgba(157, 78, 221, 0.3);
+    color: white;
+    font-weight: bold;
 }
 
 .apples-container {
     display: flex;
-    gap: 12px;
+    gap: 8px;
     flex: 1;
     justify-content: center;
 }
 
 .apple {
-    width: 60px;
-    height: 60px;
+    width: 46px;
+    height: 46px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 2rem;
+    font-size: 1.5rem;
+    transition: transform 0.3s;
     cursor: pointer;
-    transition: var(--transition);
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .apple:hover {
-    transform: scale(1.1) rotate(5deg);
+    transform: scale(1.1);
 }
 
 .apple.good {
-    background: radial-gradient(circle at 30% 30%, #FF4757, #B33737);
-    border: 2px solid rgba(255, 71, 87, 0.7);
+    background: radial-gradient(circle, #ff4d4d, #a30000);
+    border: 2px solid #ff3333;
 }
 
 .apple.bad {
-    background: radial-gradient(circle at 30% 30%, #00DFA2, #0A8F6F);
-    border: 2px solid rgba(0, 223, 162, 0.7);
-    animation: pulse 2s infinite;
+    background: radial-gradient(circle, #4dff9a, #0f4d2a);
+    border: 2px solid #2aff7b;
+    box-shadow: 0 0 10px #2aff7b;
+    animation: pulseBad 1.5s infinite;
 }
 
-@keyframes pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(0, 223, 162, 0.7); }
-    50% { box-shadow: 0 0 0 10px rgba(0, 223, 162, 0); }
-}
-
-.apple i {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+@keyframes pulseBad {
+    0%, 100% { box-shadow: 0 0 10px #2aff7b; }
+    50% { box-shadow: 0 0 20px #2aff7b, 0 0 30px #2aff7b; }
 }
 
 /* ===== أزرار التحكم ===== */
@@ -695,15 +691,15 @@ body::before {
     }
     
     .apple {
-        width: 50px;
-        height: 50px;
-        font-size: 1.7rem;
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
     }
     
     .multiplier {
-        width: 85px;
-        font-size: 1.1rem;
-        padding: 10px 0;
+        width: 60px;
+        font-size: 0.8rem;
+        padding: 5px 0;
     }
     
     .game-controls {
@@ -856,8 +852,11 @@ body::before {
             </div>
         </div>
         
-        <div class="game-board" id="gameBoard">
-            <!-- سيتم تعبئته ديناميكيًا -->
+        <!-- التصميم الجديد للتفاح -->
+        <div class="game-board">
+            <div class="board" id="gameBoard">
+                <!-- سيتم تعبئته ديناميكيًا -->
+            </div>
         </div>
         
         <div class="game-controls">
@@ -1089,7 +1088,7 @@ function startLoadingProcess() {
     }, 300);
 }
 
-// بناء لوحة اللعبة
+// بناء لوحة اللعبة (تصميم التفاح الجديد)
 function buildGameBoard() {
     const board = document.getElementById('gameBoard');
     board.innerHTML = '';
@@ -1099,10 +1098,13 @@ function buildGameBoard() {
     document.getElementById('gamePlatform').textContent = platformName;
     document.getElementById('gameUserId').textContent = `ID: ${userID}`;
     
-    multipliers.forEach((multiplier, index) => {
+    // عرض المضاعفات من تحت لفوق (عكس الترتيب)
+    const reversedMultipliers = [...multipliers].reverse();
+    
+    reversedMultipliers.forEach((multiplier, index) => {
         const row = document.createElement('div');
         row.className = 'game-row';
-        row.style.animationDelay = `${index * 0.1}s`;
+        row.style.animationDelay = `${index * 0.08}s`;
         
         // مضاعف
         const multDiv = document.createElement('div');
@@ -1114,31 +1116,29 @@ function buildGameBoard() {
         applesContainer.className = 'apples-container';
         
         // تحديد عدد التفاح الفاسد بناءً على المضاعف
-        let badApplesCount;
-        if (index < 2) badApplesCount = 1;
-        else if (index < 5) badApplesCount = 2;
-        else if (index < 8) badApplesCount = 3;
-        else badApplesCount = 4;
+        let badCount;
+        const originalIndex = multipliers.length - 1 - index;
+        
+        if (originalIndex < 3) badCount = 1;
+        else if (originalIndex < 6) badCount = 2;
+        else if (originalIndex < 8) badCount = 3;
+        else badCount = 4;
         
         // تحديد مواقع التفاح الفاسد عشوائياً
-        const badApplePositions = [];
-        while (badApplePositions.length < badApplesCount) {
-            const pos = Math.floor(Math.random() * 5);
-            if (!badApplePositions.includes(pos)) {
-                badApplePositions.push(pos);
-            }
+        const badPos = [];
+        while (badPos.length < badCount) {
+            const r = Math.floor(Math.random() * 5);
+            if (!badPos.includes(r)) badPos.push(r);
         }
         
         // إنشاء التفاح
         for (let i = 0; i < 5; i++) {
             const apple = document.createElement('div');
-            const isBad = badApplePositions.includes(i);
+            const isBad = badPos.includes(i);
             apple.className = `apple ${isBad ? 'bad' : 'good'}`;
             
-            // إضافة أيقونة
-            const icon = document.createElement('i');
-            icon.className = isBad ? 'fas fa-bug' : 'fas fa-apple-alt';
-            apple.appendChild(icon);
+            // إضافة الرموز (🍎 للتفاح الجيد، 🐛 للدودة)
+            apple.textContent = isBad ? "🐛" : "🍎";
             
             // إضافة تأثير النقر
             apple.onclick = function() {
@@ -1195,27 +1195,29 @@ function showScreen(screenId) {
 function playSoundEffect(type) {
     // في تطبيق حقيقي، يمكن إضافة ملفات صوتية هنا
     // هذا مجرد محاكاة
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    
-    if (type === 'select') {
-        // صوت نقر خفيف
-        const oscillator = audioContext.createOscillator();
-        const gainNode = audioContext.createGain();
+    try {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
         
-        oscillator.connect(gainNode);
-        gainNode.connect(audioContext.destination);
-        
-        oscillator.frequency.value = 800;
-        oscillator.type = 'sine';
-        
-        gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
-        
-        oscillator.start(audioContext.currentTime);
-        oscillator.stop(audioContext.currentTime + 0.2);
+        if (type === 'select') {
+            // صوت نقر خفيف
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = 800;
+            oscillator.type = 'sine';
+            
+            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.2);
+        }
+    } catch (e) {
+        console.log("لا يدعم المتصفح Web Audio API");
     }
-    
-    // يمكن إضافة المزيد من التأثيرات الصوتية هنا
 }
 
 // تهيئة الصفحة عند التحميل
