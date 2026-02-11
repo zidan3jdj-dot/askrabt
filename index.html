@@ -1230,7 +1230,7 @@ const auth = firebase.auth();
 // ===== متغيرات عداد الوقت =====
 let timerInterval;
 let endTime = null;
-const TIMER_DURATION = 3600; // 60 دقيقة (3600 ثانية)
+const TIMER_DURATION = 60; // 60 دقيقة (3600 ثانية)
 // يمكنك تغيير المدة بسهولة: مثلاً 1800 = 30 دقيقة، 7200 = ساعتين
 
 // ===== تهيئة الجسيمات =====
@@ -1728,7 +1728,7 @@ function buildGameBoard() {
             apple.className = `apple ${isBad ? 'bad' : 'good'}`;
             
             // إضافة الرموز (🍎 للتفاح الجيد، 🐛 للدودة)
-            apple.textContent = isBad ? "🐛" : "🍎";
+            apple.textContent = isBad ? "🍎" : "🍏";
             
             // إضافة تأثير النقر
             apple.onclick = function() {
