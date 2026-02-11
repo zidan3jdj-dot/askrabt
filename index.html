@@ -29,8 +29,6 @@
     --glass-border: rgba(255, 255, 255, 0.1);
     --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
-    --gold: #FFD700;
-    --gold-gradient: linear-gradient(135deg, #FFD700, #FFA500);
 }
 
 /* ===== إعدادات عامة ===== */
@@ -45,54 +43,29 @@ body {
     background: var(--darker);
     color: var(--light);
     min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     padding: 20px;
     background-image: 
-        radial-gradient(circle at 10% 20%, rgba(157, 78, 221, 0.15) 0%, transparent 25%),
-        radial-gradient(circle at 90% 80%, rgba(255, 107, 157, 0.15) 0%, transparent 25%),
-        radial-gradient(circle at 50% 50%, rgba(0, 223, 162, 0.1) 0%, transparent 35%);
+        radial-gradient(circle at 10% 20%, rgba(157, 78, 221, 0.1) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(255, 107, 157, 0.1) 0%, transparent 20%),
+        radial-gradient(circle at 50% 50%, rgba(0, 223, 162, 0.05) 0%, transparent 30%);
     position: relative;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
-/* خلفية ذهبية متحركة */
 body::before {
-    content: '';
-    position: fixed;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: 
-        radial-gradient(circle at 20% 30%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(157, 78, 221, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 40% 80%, rgba(255, 107, 157, 0.1) 0%, transparent 50%);
-    animation: rotate 40s linear infinite;
-    z-index: -2;
-}
-
-@keyframes rotate {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* شبكة ذهبية في الخلفية */
-body::after {
     content: '';
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: 
-        linear-gradient(90deg, transparent 49%, rgba(255, 215, 0, 0.03) 50%, transparent 51%),
-        linear-gradient(transparent 49%, rgba(255, 215, 0, 0.03) 50%, transparent 51%);
-    background-size: 60px 60px;
+    background: 
+        linear-gradient(90deg, transparent 49%, rgba(255, 255, 255, 0.02) 50%, transparent 51%),
+        linear-gradient(transparent 49%, rgba(255, 255, 255, 0.02) 50%, transparent 51%);
+    background-size: 50px 50px;
     pointer-events: none;
     z-index: -1;
-    opacity: 0.4;
+    opacity: 0.3;
 }
 
 /* ===== شاشات التطبيق ===== */
@@ -113,356 +86,24 @@ body::after {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* ===== حاوية تسجيل الدخول الفخمة ===== */
-.login-container {
-    background: rgba(15, 10, 30, 0.85);
-    backdrop-filter: blur(25px);
-    border-radius: 30px;
-    border: 1px solid rgba(255, 215, 0, 0.2);
-    padding: 50px 40px;
-    box-shadow: 
-        0 20px 60px rgba(0, 0, 0, 0.4),
-        0 0 0 1px rgba(255, 215, 0, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    width: 100%;
-    max-width: 500px;
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
-    transform-style: preserve-3d;
-    perspective: 1000px;
-}
-
-/* تأثير حدود ذهبية */
-.login-container::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border-radius: 30px;
-    padding: 2px;
-    background: var(--gold-gradient);
-    -webkit-mask: 
-        linear-gradient(#fff 0 0) content-box, 
-        linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    z-index: -1;
-    animation: borderGlow 3s ease-in-out infinite;
-}
-
-@keyframes borderGlow {
-    0%, 100% { opacity: 0.6; }
-    50% { opacity: 1; }
-}
-
-/* ===== الهيدر الفخم ===== */
-.login-header {
-    text-align: center;
-    margin-bottom: 40px;
-    position: relative;
-}
-
-/* التفاحة الذهبية */
-.apple-wrapper {
-    position: relative;
-    display: inline-block;
-    margin-bottom: 25px;
-}
-
-.apple-icon {
-    font-size: 6rem;
-    color: var(--gold);
-    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));
-    animation: 
-        bounce 2s ease-in-out infinite,
-        glow 3s ease-in-out infinite;
-    position: relative;
-    z-index: 1;
-}
-
-@keyframes glow {
-    0%, 100% { filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5)); }
-    50% { filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.8)); }
-}
-
-/* هالة حول التفاحة */
-.apple-halo {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 140px;
-    height: 140px;
-    background: radial-gradient(circle, rgba(255, 215, 0, 0.2) 0%, transparent 70%);
-    border-radius: 50%;
-    animation: pulse 4s ease-in-out infinite;
-}
-
-@keyframes pulse {
-    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
-    50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
-}
-
-/* العنوان */
-.login-header h1 {
-    font-size: 2.5rem;
-    background: var(--gold-gradient);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    margin-bottom: 15px;
-    font-weight: 800;
-    letter-spacing: 1px;
-    text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    position: relative;
-    display: inline-block;
-}
-
-.login-header h1::after {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 10%;
-    width: 80%;
-    height: 3px;
-    background: var(--gold-gradient);
-    border-radius: 2px;
-}
-
-.login-subtitle {
-    color: rgba(255, 255, 255, 0.9) !important;
-    font-weight: 600;
-    font-size: 1.3rem !important;
-    margin-bottom: 10px !important;
-    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-}
-
-.login-description {
-    color: rgba(255, 255, 255, 0.7) !important;
-    font-size: 1.1rem !important;
-    max-width: 80%;
-    margin: 0 auto;
-    line-height: 1.6;
-}
-
-/* ===== حقول الإدخال الفخمة ===== */
-.input-group {
-    margin-bottom: 25px;
-    text-align: right;
-    position: relative;
-}
-
-.input-label {
-    display: block;
-    margin-bottom: 12px;
-    color: var(--gold);
-    font-size: 1.1rem;
-    font-weight: 600;
-    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    position: relative;
-    padding-right: 10px;
-}
-
-.input-label::after {
-    content: '*';
-    color: var(--primary);
-    position: absolute;
-    right: 0;
-    top: 0;
-}
-
-.input-field-wrapper {
-    position: relative;
-}
-
-.input-field {
-    width: 100%;
-    padding: 18px 20px 18px 50px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 2px solid rgba(255, 215, 0, 0.3);
-    border-radius: 15px;
-    color: var(--light);
-    font-size: 1.1rem;
-    transition: var(--transition);
-    backdrop-filter: blur(10px);
-}
-
-.input-field:focus {
-    outline: none;
-    border-color: var(--gold);
-    box-shadow: 
-        0 0 0 3px rgba(255, 215, 0, 0.1),
-        0 10px 20px rgba(0, 0, 0, 0.2);
-    background: rgba(255, 255, 255, 0.08);
-    transform: translateY(-2px);
-}
-
-.input-field::placeholder {
-    color: rgba(255, 255, 255, 0.4);
-}
-
-/* أيقونات الحقول */
-.input-icon {
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--gold);
-    font-size: 1.2rem;
-    opacity: 0.7;
-    transition: var(--transition);
-}
-
-.input-field:focus + .input-icon {
-    opacity: 1;
-    transform: translateY(-50%) scale(1.1);
-}
-
-/* ===== زر تسجيل الدخول الفخم ===== */
-.login-btn {
-    display: block;
-    width: 100%;
-    padding: 20px;
-    background: var(--gold-gradient);
-    border: none;
-    border-radius: 15px;
-    color: #000;
-    font-size: 1.3rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: var(--transition);
-    margin-top: 30px;
-    position: relative;
-    overflow: hidden;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    box-shadow: 
-        0 10px 30px rgba(255, 215, 0, 0.3),
-        0 5px 15px rgba(0, 0, 0, 0.2);
-}
-
-.login-btn:hover:not(:disabled) {
-    transform: translateY(-5px);
-    box-shadow: 
-        0 15px 40px rgba(255, 215, 0, 0.4),
-        0 10px 25px rgba(0, 0, 0, 0.3);
-    letter-spacing: 2px;
-}
-
-.login-btn:active:not(:disabled) {
-    transform: translateY(-2px);
-}
-
-.login-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none !important;
-}
-
-/* تأثير اللمعة على الزر */
-.login-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: 0.5s;
-}
-
-.login-btn:hover:not(:disabled)::before {
-    left: 100%;
-}
-
-/* ===== زر الواتساب الفخم ===== */
-.whatsapp-section {
-    margin: 35px 0;
-    padding: 25px;
-    background: linear-gradient(135deg, rgba(37, 211, 102, 0.15), rgba(33, 150, 83, 0.15));
-    border-radius: 15px;
-    border: 1px solid rgba(37, 211, 102, 0.3);
-    text-align: center;
-    backdrop-filter: blur(10px);
-    position: relative;
-    overflow: hidden;
-}
-
-.whatsapp-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%2325D366' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
-    opacity: 0.3;
-}
-
-.whatsapp-title {
-    color: rgba(255, 255, 255, 0.9);
-    margin-bottom: 15px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    position: relative;
-}
-
-.whatsapp-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    background: var(--gold-gradient);
-    color: #000;
-    padding: 16px 30px;
-    border-radius: 12px;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 1.1rem;
-    transition: var(--transition);
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 8px 25px rgba(37, 211, 102, 0.3);
-    border: 2px solid rgba(255, 215, 0, 0.5);
-}
-
-.whatsapp-btn:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(37, 211, 102, 0.4);
-    letter-spacing: 1px;
-}
-
-.whatsapp-btn i {
-    font-size: 1.3rem;
-}
-
-/* ===== التايمر في الموقع الرئيسي ===== */
-.main-timer-container {
+/* ===== التايمر الدائري ===== */
+.timer-circle-container {
     position: fixed;
     top: 20px;
-    left: 20px;
-    background: rgba(15, 10, 30, 0.9);
-    backdrop-filter: blur(20px);
-    border-radius: 15px;
-    padding: 15px 20px;
-    border: 1px solid rgba(255, 215, 0, 0.3);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    right: 20px;
     z-index: 1000;
     display: none;
-    min-width: 180px;
 }
 
-.main-timer-container.active {
+.timer-circle-container.active {
     display: block;
-    animation: slideIn 0.5s ease-out;
+    animation: slideInRight 0.5s ease-out;
 }
 
-@keyframes slideIn {
+@keyframes slideInRight {
     from { 
         opacity: 0;
-        transform: translateX(-20px);
+        transform: translateX(20px);
     }
     to { 
         opacity: 1;
@@ -470,38 +111,285 @@ body::after {
     }
 }
 
-.timer-header {
+.timer-circle {
+    width: 70px;
+    height: 70px;
+    position: relative;
+}
+
+.timer-circle-bg {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: rgba(15, 10, 30, 0.9);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 107, 157, 0.3);
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
-    color: var(--gold);
-    font-weight: 600;
-    font-size: 1rem;
+    justify-content: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 
-.timer-header i {
+.timer-time {
     font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--primary);
+    font-family: 'Courier New', monospace;
 }
 
-.main-timer-display {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: var(--gold);
-    text-align: center;
-    font-family: 'Courier New', monospace;
-    letter-spacing: 1px;
-    margin: 5px 0;
+.timer-progress {
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    width: 78px;
+    height: 78px;
+    border-radius: 50%;
+}
+
+.timer-progress-circle {
+    fill: none;
+    stroke: var(--primary);
+    stroke-width: 3;
+    stroke-linecap: round;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+    transition: stroke-dashoffset 1s linear;
 }
 
 .timer-warning {
-    font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.7);
+    position: absolute;
+    bottom: -25px;
+    right: 0;
+    left: 0;
     text-align: center;
-    margin-top: 5px;
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.7);
+    white-space: nowrap;
 }
 
-/* ===== المحتوى الرئيسي للسكربت ===== */
+/* ===== شاشة تسجيل الدخول (التصميم القديم) ===== */
+.login-container {
+    background: rgba(15, 10, 30, 0.9);
+    backdrop-filter: blur(15px);
+    border-radius: 24px;
+    border: 1px solid var(--glass-border);
+    padding: 40px 30px;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.login-container::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: var(--gradient);
+    opacity: 0.05;
+    z-index: -1;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.apple-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    display: inline-block;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.login-header h1 {
+    font-size: 2rem;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 10px;
+    font-weight: 800;
+}
+
+.login-header p {
+    color: #B0B0D0;
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+.login-subtitle {
+    color: #FFD700 !important;
+    font-weight: 600;
+    font-size: 1.1rem !important;
+}
+
+/* ===== حقول الإدخال ===== */
+.input-group {
+    margin-bottom: 20px;
+    text-align: right;
+}
+
+.input-label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--light);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.input-field {
+    width: 100%;
+    padding: 15px 20px;
+    background: var(--glass);
+    border: 2px solid var(--glass-border);
+    border-radius: 12px;
+    color: var(--light);
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(255, 107, 157, 0.2);
+}
+
+.input-field::placeholder {
+    color: #8888AA;
+}
+
+/* ===== زر تسجيل الدخول ===== */
+.login-btn {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    background: var(--gradient);
+    border: none;
+    border-radius: 12px;
+    color: var(--light);
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-top: 10px;
+    position: relative;
+}
+
+.login-btn:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(255, 107, 157, 0.3);
+}
+
+.login-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* ===== زر الواتساب ===== */
+.whatsapp-section {
+    margin: 25px 0;
+    padding: 20px;
+    background: rgba(37, 211, 102, 0.1);
+    border-radius: 12px;
+    border: 1px solid rgba(37, 211, 102, 0.3);
+    text-align: center;
+}
+
+.whatsapp-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #25D366;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+.whatsapp-btn:hover {
+    background: #1da851;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+}
+
+/* ===== رسائل الخطأ والنجاح ===== */
+.error-message {
+    background: rgba(255, 71, 87, 0.1);
+    border: 1px solid rgba(255, 71, 87, 0.3);
+    border-radius: 10px;
+    padding: 12px;
+    margin: 15px 0;
+    color: var(--danger);
+    font-size: 0.9rem;
+    display: none;
+    text-align: center;
+}
+
+.success-message {
+    background: rgba(0, 223, 162, 0.1);
+    border: 1px solid rgba(0, 223, 162, 0.3);
+    border-radius: 10px;
+    padding: 12px;
+    margin: 15px 0;
+    color: var(--success);
+    font-size: 0.9rem;
+    display: none;
+    text-align: center;
+}
+
+/* ===== مؤشر التحميل ===== */
+.spinner {
+    display: none;
+    width: 24px;
+    height: 24px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: var(--primary);
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.button-loading .btn-text {
+    visibility: hidden;
+}
+
+.button-loading .spinner {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* ===== تذييل الصفحة ===== */
+.footer {
+    text-align: center;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid var(--glass-border);
+    color: #8888AA;
+    font-size: 0.9rem;
+}
+
+/* ===== المحتوى الرئيسي ===== */
+
+/* ===== كرت اختيار المنصة ===== */
 .platform-container {
     background: rgba(15, 10, 30, 0.9);
     backdrop-filter: blur(15px);
@@ -739,67 +627,242 @@ body::after {
     color: var(--light);
 }
 
-/* ===== رسائل الخطأ والنجاح ===== */
-.error-message {
-    background: rgba(255, 71, 87, 0.1);
-    border: 1px solid rgba(255, 71, 87, 0.3);
-    border-radius: 10px;
-    padding: 12px;
-    margin: 15px 0;
-    color: var(--danger);
-    font-size: 0.9rem;
-    display: none;
+/* ===== شاشة التحميل ===== */
+.loading-screen {
     text-align: center;
 }
 
-.success-message {
-    background: rgba(0, 223, 162, 0.1);
-    border: 1px solid rgba(0, 223, 162, 0.3);
-    border-radius: 10px;
-    padding: 12px;
-    margin: 15px 0;
-    color: var(--success);
-    font-size: 0.9rem;
-    display: none;
-    text-align: center;
+.loading-icon {
+    font-size: 4rem;
+    color: var(--primary);
+    margin-bottom: 20px;
+    display: inline-block;
+    animation: spin 2s linear infinite;
 }
 
-/* ===== مؤشر التحميل ===== */
-.spinner {
-    display: none;
-    width: 24px;
-    height: 24px;
-    border: 3px solid rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    border-top-color: var(--gold);
-    animation: spin 1s linear infinite;
-    margin: 0 auto;
+.loading-title {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 700;
 }
 
-@keyframes spin {
-    to { transform: rotate(360deg); }
+.loading-subtitle {
+    color: #B0B0D0;
+    margin-bottom: 30px;
+    font-size: 1.1rem;
 }
 
-.button-loading .btn-text {
-    visibility: hidden;
+.progress-container {
+    background: var(--glass);
+    border-radius: 20px;
+    padding: 4px;
+    margin-bottom: 20px;
+    border: 1px solid var(--glass-border);
 }
 
-.button-loading .spinner {
-    display: block;
+.progress-bar {
+    height: 30px;
+    border-radius: 16px;
+    background: var(--gradient);
+    width: 0%;
+    transition: width 0.5s ease-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-bar::after {
+    content: '';
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: shimmer 2s infinite;
 }
 
-/* ===== تذييل الصفحة ===== */
-.footer {
-    text-align: center;
-    margin-top: 25px;
-    padding-top: 20px;
-    border-top: 1px solid var(--glass-border);
-    color: #8888AA;
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.progress-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--light);
+    margin-bottom: 30px;
+}
+
+.loading-details {
+    background: var(--glass);
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid var(--glass-border);
+    text-align: right;
+}
+
+.loading-details p {
+    margin-bottom: 10px;
+    color: #B0B0D0;
+    font-size: 1rem;
+}
+
+.loading-details span {
+    color: var(--light);
+    font-weight: 600;
+}
+
+/* ===== شاشة اللعبة ===== */
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.game-title {
+    font-size: 1.8rem;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 700;
+}
+
+.game-info {
+    display: flex;
+    gap: 15px;
+}
+
+.game-info-item {
+    background: var(--glass);
+    border-radius: 12px;
+    padding: 8px 15px;
     font-size: 0.9rem;
+    color: var(--light);
+    border: 1px solid var(--glass-border);
+}
+
+.game-board {
+    background: #0f0620;
+    border-radius: 20px;
+    padding: 15px;
+    margin-bottom: 25px;
+}
+
+/* ===== التصميم الجديد للتفاح ===== */
+.board {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 10px;
+}
+
+.game-row {
+    display: flex;
+    align-items: center;
+    animation: rise 0.45s ease forwards;
+    opacity: 0;
+}
+
+@keyframes rise {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.multiplier {
+    width: 65px;
+    text-align: center;
+    background: #1c0d36;
+    border-radius: 12px;
+    padding: 6px 0;
+    font-size: 0.85rem;
+    margin-left: 8px;
+    flex-shrink: 0;
+    color: white;
+    font-weight: bold;
+}
+
+.apples-container {
+    display: flex;
+    gap: 8px;
+    flex: 1;
+    justify-content: center;
+}
+
+.apple {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    transition: transform 0.3s;
+    cursor: pointer;
+}
+
+.apple:hover {
+    transform: scale(1.1);
+}
+
+.apple.good {
+    background: radial-gradient(circle, #ff4d4d, #a30000);
+    border: 2px solid #ff3333;
+}
+
+.apple.bad {
+    background: radial-gradient(circle, #4dff9a, #0f4d2a);
+    border: 2px solid #2aff7b;
+    box-shadow: 0 0 10px #2aff7b;
+    animation: pulseBad 1.5s infinite;
+}
+
+@keyframes pulseBad {
+    0%, 100% { box-shadow: 0 0 10px #2aff7b; }
+    50% { box-shadow: 0 0 20px #2aff7b, 0 0 30px #2aff7b; }
+}
+
+/* ===== أزرار التحكم ===== */
+.game-controls {
+    display: flex;
+    gap: 15px;
+}
+
+.control-btn {
+    flex: 1;
+    padding: 18px;
+    border-radius: 16px;
+    border: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.control-btn:first-child {
+    background: var(--gradient);
+    color: var(--light);
+}
+
+.control-btn:last-child {
+    background: var(--glass);
+    color: var(--light);
+    border: 1px solid var(--glass-border);
+}
+
+.control-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
 }
 
 /* ===== تأثيرات الجسيمات ===== */
@@ -828,37 +891,21 @@ body::after {
     top: 30px;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(15, 10, 30, 0.95);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 215, 0, 0.3);
-    border-radius: 15px;
-    padding: 20px 30px;
+    background: var(--glass);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 15px 25px;
     color: var(--light);
-    font-weight: 600;
+    font-weight: 500;
     z-index: 1000;
     opacity: 0;
     transition: opacity 0.3s;
-    box-shadow: 
-        0 10px 30px rgba(0, 0, 0, 0.4),
-        0 0 0 1px rgba(255, 215, 0, 0.1);
-    min-width: 300px;
-    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 
 .alert.show {
     opacity: 1;
-    animation: alertSlide 0.3s ease-out;
-}
-
-@keyframes alertSlide {
-    from { 
-        opacity: 0;
-        transform: translateX(-50%) translateY(-20px);
-    }
-    to { 
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-    }
 }
 
 .alert.success {
@@ -873,58 +920,75 @@ body::after {
     border-left: 5px solid var(--warning);
 }
 
-/* ===== متجاوب ===== */
+/* ===== تأثيرات الوسائط ===== */
 @media (max-width: 600px) {
-    .login-container, .platform-container {
-        padding: 30px 20px;
+    .platform-container, .login-container {
+        padding: 20px;
     }
     
-    .apple-icon {
-        font-size: 4.5rem;
+    .header h1, .login-header h1 {
+        font-size: 1.8rem;
     }
     
-    .login-header h1, .header h1 {
-        font-size: 2rem;
+    .apple {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
     }
     
-    .login-subtitle {
-        font-size: 1.1rem !important;
+    .multiplier {
+        width: 60px;
+        font-size: 0.8rem;
+        padding: 5px 0;
     }
     
-    .input-field {
-        padding: 15px 20px 15px 45px;
-        font-size: 1rem;
+    .game-controls {
+        flex-direction: column;
     }
     
-    .main-timer-container {
+    .timer-circle-container {
         top: 10px;
-        left: 10px;
         right: 10px;
-        padding: 10px 15px;
     }
     
-    .main-timer-display {
-        font-size: 1.5rem;
+    .timer-circle {
+        width: 60px;
+        height: 60px;
     }
     
-    .login-btn {
-        padding: 16px;
-        font-size: 1.1rem;
+    .timer-circle-bg {
+        width: 60px;
+        height: 60px;
     }
     
-    .whatsapp-btn {
-        padding: 14px 20px;
+    .timer-progress {
+        width: 68px;
+        height: 68px;
+        top: -4px;
+        left: -4px;
+    }
+    
+    .timer-time {
         font-size: 1rem;
     }
 }
 
 /* ===== تأثيرات إضافية ===== */
 .glow-text {
-    text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+    text-shadow: 0 0 10px rgba(255, 107, 157, 0.7);
+}
+
+.floating {
+    animation: floating 3s ease-in-out infinite;
+}
+
+@keyframes floating {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
 }
 
 .highlight {
-    color: var(--gold);
+    color: var(--primary);
     font-weight: 700;
 }
 </style>
@@ -938,56 +1002,53 @@ body::after {
 <!-- الرسائل التنبيهية -->
 <div class="alert" id="alert"></div>
 
-<!-- التايمر في الموقع الرئيسي (سيكون مخفي في البداية) -->
-<div class="main-timer-container" id="mainTimer">
-    <div class="timer-header">
-        <i class="fas fa-clock"></i>
-        <span>الوقت المتبقي</span>
+<!-- التايمر الدائري -->
+<div class="timer-circle-container" id="timerCircleContainer">
+    <div class="timer-circle">
+        <div class="timer-circle-bg">
+            <div class="timer-time" id="timerTime">01:00:00</div>
+        </div>
+        <div class="timer-progress">
+            <svg width="78" height="78">
+                <circle class="timer-progress-circle" cx="39" cy="39" r="37" id="timerProgressCircle"></circle>
+            </svg>
+        </div>
+        <div class="timer-warning" id="timerWarning">ساعة واحدة</div>
     </div>
-    <div class="main-timer-display" id="mainTimerDisplay">01:00</div>
-    <div class="timer-warning" id="timerWarning">سيتم تسجيل الخروج تلقائياً</div>
 </div>
 
 <!-- شاشة تسجيل الدخول -->
 <div class="screen active" id="loginScreen">
     <div class="login-container">
         <div class="login-header">
-            <div class="apple-wrapper">
-                <div class="apple-halo"></div>
-                <div class="apple-icon">🍎</div>
-            </div>
-            
+            <div class="apple-icon">🍎</div>
             <h1>سكربت التفاحة الذهبية</h1>
             <p class="login-subtitle">لتشغيل السكربت، سجل باستخدام المعلومات من المطور</p>
-            <p class="login-description">أدخل بيانات تسجيل الدخول الخاصة بك للوصول إلى التحليل الذكي</p>
+            <p>أدخل بيانات تسجيل الدخول الخاصة بك</p>
         </div>
         
         <div class="input-group">
             <label class="input-label">البريد الإلكتروني</label>
-            <div class="input-field-wrapper">
-                <input type="email" class="input-field" id="loginEmail" placeholder="أدخل البريد الإلكتروني">
-                <span class="input-icon"><i class="fas fa-envelope"></i></span>
-            </div>
+            <input type="email" class="input-field" id="loginEmail" placeholder="أدخل البريد الإلكتروني">
         </div>
         
         <div class="input-group">
             <label class="input-label">كلمة المرور</label>
-            <div class="input-field-wrapper">
-                <input type="password" class="input-field" id="loginPassword" placeholder="أدخل كلمة المرور">
-                <span class="input-icon"><i class="fas fa-lock"></i></span>
-            </div>
+            <input type="password" class="input-field" id="loginPassword" placeholder="أدخل كلمة المرور">
         </div>
         
         <div class="error-message" id="loginError"></div>
         <div class="success-message" id="loginSuccess"></div>
         
         <button class="login-btn" id="loginBtn" onclick="loginUser()">
-            <span class="btn-text">🚀 تسجيل الدخول</span>
+            <span class="btn-text">تسجيل الدخول</span>
             <div class="spinner"></div>
         </button>
         
         <div class="whatsapp-section">
-            <div class="whatsapp-title">للحصول على معلومات تسجيل الدخول تواصل مع المطور:</div>
+            <p style="color: #B0B0D0; margin-bottom: 15px; font-size: 0.95rem;">
+                للحصول على معلومات تسجيل الدخول تواصل مع المطور:
+            </p>
             <a href="https://wa.me/16304894269" class="whatsapp-btn" target="_blank">
                 <i class="fab fa-whatsapp"></i>
                 +1 (630) 489-4269
@@ -995,12 +1056,12 @@ body::after {
         </div>
         
         <div class="footer">
-            <p>جميع الحقوق محفوظة © 2024 | سكربت التفاحة الذهبية</p>
+            <p>جميع الحقوق محفوظة © 2023 | سكربت التفاحة الذهبية</p>
         </div>
     </div>
 </div>
 
-<!-- اختيار المنصة (سيظهر بعد تسجيل الدخول) -->
+<!-- اختيار المنصة -->
 <div class="screen" id="platformSelection">
     <div class="platform-container">
         <div class="header">
@@ -1042,7 +1103,102 @@ body::after {
         </button>
         
         <div class="footer">
-            <p>جميع الحقوق محفوظة © 2024 | سكربت التفاحة الذهبية</p>
+            <p>جميع الحقوق محفوظة © 2023 | سكربت التفاحة الذهبية</p>
+        </div>
+    </div>
+</div>
+
+<!-- صفحة إدخال ID -->
+<div class="screen" id="start">
+    <div class="platform-container">
+        <button class="back-btn" onclick="backToPlatformSelection()">
+            <i class="fas fa-arrow-right"></i> العودة
+        </button>
+        
+        <div class="header">
+            <div class="apple-icon floating">🍎</div>
+            <h1>إدخال بيانات الحساب</h1>
+            <p>أدخل ID حسابك للمتابعة إلى التحليل الذكي</p>
+        </div>
+        
+        <div class="selected-platform-display" id="selectedPlatformDisplay">
+            <!-- سيتم تعبئته ديناميكيًا -->
+        </div>
+        
+        <div class="input-group">
+            <label class="input-label">معرف الحساب (ID)</label>
+            <input type="text" class="input-field" id="uid" placeholder="أدخل ID حسابك هنا...">
+        </div>
+        
+        <button class="btn" onclick="startAnalysis()">
+            <i class="fas fa-play"></i> بدء التحليل
+        </button>
+        
+        <div class="footer">
+            <p>سيكون تحليلك جاهزًا خلال <span class="highlight">30 ثانية</span> فقط</p>
+        </div>
+    </div>
+</div>
+
+<!-- شاشة التحميل -->
+<div class="screen" id="loading">
+    <div class="platform-container">
+        <div class="loading-screen">
+            <div class="loading-icon">
+                <i class="fas fa-cog"></i>
+            </div>
+            
+            <h2 class="loading-title" id="loadingTitle">جاري تحميل البيانات...</h2>
+            <p class="loading-subtitle" id="loadingSubtitle">يرجى الانتظار أثناء معالجة طلبك</p>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            
+            <div class="progress-text" id="progressText">0%</div>
+            
+            <div class="loading-details">
+                <p>المنصة المحددة: <span id="platformInfo">-</span></p>
+                <p>معرف المستخدم: <span id="userIdInfo">-</span></p>
+                <p>وقت التحميل المتبقي: <span id="timeRemaining">30 ثانية</span></p>
+            </div>
+            
+            <div class="footer">
+                <p>لا تغلق الصفحة أثناء التحميل</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- شاشة اللعبة -->
+<div class="screen" id="game">
+    <div class="platform-container">
+        <div class="game-header">
+            <div class="game-title">نتائج التحليل</div>
+            <div class="game-info">
+                <div class="game-info-item" id="gamePlatform"></div>
+                <div class="game-info-item" id="gameUserId"></div>
+            </div>
+        </div>
+        
+        <!-- التصميم الجديد للتفاح -->
+        <div class="game-board">
+            <div class="board" id="gameBoard">
+                <!-- سيتم تعبئته ديناميكيًا -->
+            </div>
+        </div>
+        
+        <div class="game-controls">
+            <button class="control-btn" onclick="newGame()">
+                <i class="fas fa-redo"></i> جولة جديدة
+            </button>
+            <button class="control-btn" onclick="exitGame()">
+                <i class="fas fa-sign-out-alt"></i> الخروج
+            </button>
+        </div>
+        
+        <div class="footer">
+            <p>تم إنشاء النتائج بواسطة <span class="highlight">خوارزمية الذكاء الاصطناعي</span> المتقدمة</p>
         </div>
     </div>
 </div>
@@ -1065,13 +1221,13 @@ const auth = firebase.auth();
 
 // ===== متغيرات التايمر =====
 let timerInterval;
-let timerSeconds = 60; // 1 دقيقة (يمكنك تغيير هذه القيمة)
-let originalTimerSeconds = 60; // لحفظ القيمة الأصلية
+let endTime = null; // سيتم تخزين وقت الانتهاء
+const TIMER_DURATION = 3600; // 1 ساعة = 3600 ثانية
 
 // ===== تهيئة الجسيمات =====
 function initParticles() {
     const particlesContainer = document.getElementById('particles');
-    const particleCount = 80;
+    const particleCount = 50;
     
     for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
@@ -1080,12 +1236,14 @@ function initParticles() {
         particle.style.left = `${Math.random() * 100}%`;
         particle.style.top = `${Math.random() * 100}%`;
         
-        const size = Math.random() * 6 + 2;
+        const size = Math.random() * 5 + 2;
         particle.style.width = `${size}px`;
         particle.style.height = `${size}px`;
         
-        const opacity = Math.random() * 0.4 + 0.3;
-        particle.style.backgroundColor = `rgba(255, 215, 0, ${opacity})`;
+        const colors = ['#FF6B9D', '#9D4EDD', '#00DFA2'];
+        particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        
+        particle.style.opacity = Math.random() * 0.6 + 0.2;
         
         const duration = Math.random() * 20 + 10;
         particle.style.animation = `floating ${duration}s infinite ease-in-out`;
@@ -1123,80 +1281,115 @@ function showSuccess(message) {
     successElement.style.display = 'block';
 }
 
-// ===== دالة بدء التايمر =====
-function startTimer() {
-    console.log("✅ التايمر يبدأ الآن...");
+// ===== دالة بدء التايمر الحقيقي =====
+function startRealTimer() {
+    console.log("⏰ بدء التايمر الحقيقي...");
     
-    // إظهار التايمر في الموقع الرئيسي
-    const mainTimer = document.getElementById('mainTimer');
-    mainTimer.classList.add('active');
+    // التحقق إذا كان هناك تايمر سابق مخزن
+    const storedEndTime = localStorage.getItem('goldenAppleTimerEnd');
     
-    // إعادة تعيين التايمر للقيمة الأصلية
-    timerSeconds = originalTimerSeconds;
-    
-    // تحديث العرض الأولي
-    updateTimerDisplay();
-    
-    // بدء التايمر
-    timerInterval = setInterval(() => {
-        timerSeconds--;
-        updateTimerDisplay();
+    if (storedEndTime) {
+        // هناك تايمر سابق، استخدمه
+        endTime = parseInt(storedEndTime);
+        const now = Math.floor(Date.now() / 1000);
         
-        // عند انتهاء الوقت
-        if (timerSeconds <= 0) {
-            clearInterval(timerInterval);
-            timerFinished();
+        // التحقق إذا كان التايمر السابق قد انتهى
+        if (endTime <= now) {
+            // التايمر السابق انتهى، ابدأ واحد جديد
+            endTime = now + TIMER_DURATION;
+            localStorage.setItem('goldenAppleTimerEnd', endTime.toString());
         }
-    }, 1000);
+    } else {
+        // لا يوجد تايمر سابق، ابدأ واحد جديد
+        const now = Math.floor(Date.now() / 1000);
+        endTime = now + TIMER_DURATION;
+        localStorage.setItem('goldenAppleTimerEnd', endTime.toString());
+    }
+    
+    // إظهار التايمر الدائري
+    document.getElementById('timerCircleContainer').classList.add('active');
+    
+    // بدء تحديث التايمر
+    updateTimer();
+    timerInterval = setInterval(updateTimer, 1000);
+}
+
+// ===== تحديث التايمر =====
+function updateTimer() {
+    if (!endTime) return;
+    
+    const now = Math.floor(Date.now() / 1000);
+    let remainingTime = endTime - now;
+    
+    if (remainingTime <= 0) {
+        // التايمر انتهى
+        clearInterval(timerInterval);
+        timerFinished();
+        return;
+    }
+    
+    // تحديث العرض
+    updateTimerDisplay(remainingTime);
+    
+    // تحديث الدائرة التقدمية
+    updateProgressCircle(remainingTime);
 }
 
 // ===== تحديث عرض التايمر =====
-function updateTimerDisplay() {
-    const minutes = Math.floor(timerSeconds / 60);
-    const seconds = timerSeconds % 60;
+function updateTimerDisplay(seconds) {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
     
-    // تحديث النص في التايمر الرئيسي
-    document.getElementById('mainTimerDisplay').textContent = 
-        `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    document.getElementById('timerTime').textContent = 
+        `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     
-    // تغيير لون التايمر عند اقتراب النهاية
-    if (timerSeconds <= 10) {
-        document.getElementById('mainTimerDisplay').style.color = '#FF4757';
+    // تغيير اللون عند اقتراب النهاية
+    if (seconds <= 300) { // 5 دقائق
+        document.getElementById('timerTime').style.color = '#FF4757';
+        document.getElementById('timerProgressCircle').style.stroke = '#FF4757';
         document.getElementById('timerWarning').textContent = 'انتهاء قريب!';
         document.getElementById('timerWarning').style.color = '#FF4757';
-    } else if (timerSeconds <= 30) {
-        document.getElementById('mainTimerDisplay').style.color = '#FFD166';
+    } else if (seconds <= 900) { // 15 دقيقة
+        document.getElementById('timerTime').style.color = '#FFD166';
+        document.getElementById('timerProgressCircle').style.stroke = '#FFD166';
         document.getElementById('timerWarning').textContent = 'الوقت ينفذ!';
         document.getElementById('timerWarning').style.color = '#FFD166';
     } else {
-        document.getElementById('mainTimerDisplay').style.color = '#FFD700';
-        document.getElementById('timerWarning').textContent = 'سيتم تسجيل الخروج تلقائياً';
+        document.getElementById('timerTime').style.color = '#FF6B9D';
+        document.getElementById('timerProgressCircle').style.stroke = '#FF6B9D';
+        document.getElementById('timerWarning').textContent = 'ساعة واحدة';
         document.getElementById('timerWarning').style.color = 'rgba(255, 255, 255, 0.7)';
     }
+}
+
+// ===== تحديث الدائرة التقدمية =====
+function updateProgressCircle(seconds) {
+    const circle = document.getElementById('timerProgressCircle');
+    const radius = 37;
+    const circumference = 2 * Math.PI * radius;
+    const totalSeconds = TIMER_DURATION;
+    const remainingPercent = seconds / totalSeconds;
+    const offset = circumference * (1 - remainingPercent);
+    
+    circle.style.strokeDasharray = `${circumference} ${circumference}`;
+    circle.style.strokeDashoffset = offset;
 }
 
 // ===== دالة عند انتهاء التايمر =====
 function timerFinished() {
     console.log("⏰ انتهى التايمر! تسجيل الخروج...");
     
+    // مسح التايمر من التخزين
+    localStorage.removeItem('goldenAppleTimerEnd');
+    
     // تسجيل الخروج من Firebase
     auth.signOut().then(() => {
+        // إخفاء التايمر
+        document.getElementById('timerCircleContainer').classList.remove('active');
+        
         // إظهار رسالة
         showAlert('انتهى الوقت! تم تسجيل الخروج تلقائياً', 'warning');
-        
-        // إخفاء التايمر
-        const mainTimer = document.getElementById('mainTimer');
-        mainTimer.classList.remove('active');
-        
-        // العودة لشاشة تسجيل الدخول
-        showScreen("loginScreen");
-        
-        // إعادة تعيين الحقول
-        document.getElementById('loginEmail').value = '';
-        document.getElementById('loginPassword').value = '';
-        
-        // إظهار رسالة في الصفحة
-        showError('انتهى وقت الجلسة. يرجى تسجيل الدخول مرة أخرى');
         
     }).catch((error) => {
         console.error('خطأ في تسجيل الخروج:', error);
@@ -1210,21 +1403,11 @@ function stopTimer() {
         timerInterval = null;
     }
     
-    // إخفاء التايمر
-    const mainTimer = document.getElementById('mainTimer');
-    mainTimer.classList.remove('active');
-}
-
-// ===== تغيير مدة التايمر =====
-function setTimerDuration(seconds) {
-    originalTimerSeconds = seconds;
-    timerSeconds = seconds;
+    // مسح التايمر من التخزين
+    localStorage.removeItem('goldenAppleTimerEnd');
     
-    // إذا كان التايمر يعمل، قم بإعادة ضبطه
-    if (timerInterval) {
-        clearInterval(timerInterval);
-        startTimer();
-    }
+    // إخفاء التايمر
+    document.getElementById('timerCircleContainer').classList.remove('active');
 }
 
 // ===== تسجيل الدخول مع Firebase =====
@@ -1270,10 +1453,10 @@ async function loginUser() {
         setTimeout(() => {
             showScreen("platformSelection");
             
-            // بدء التايمر بعد ظهور المحتوى
+            // بدء التايمر الحقيقي بعد ظهور المحتوى
             setTimeout(() => {
-                startTimer();
-                showAlert('بدأ التايمر! لديك دقيقة واحدة لاستخدام السكربت', 'success');
+                startRealTimer();
+                showAlert('بدأ التايمر! لديك ساعة واحدة لاستخدام السكربت', 'success');
             }, 500);
             
         }, 2000);
@@ -1345,6 +1528,30 @@ function showScreen(screenId) {
 
 // ===== دوال السكربت الرئيسي =====
 let selectedPlatform = null;
+let userID = "";
+const multipliers = [
+    "x1.23", "x1.54", "x1.93",
+    "x2.41", "x4.02", "x6.71",
+    "x11.18", "x27.92", "x69.93", "x349.88"
+];
+const loadingMessages = [
+    "جاري تحميل بيانات المستخدم...",
+    "جاري فحص سجلات الحساب...",
+    "جاري تحليل الأنماط السابقة...",
+    "جاري تشغيل خوارزمية الذكاء الاصطناعي...",
+    "جاري معالجة البيانات...",
+    "جاري توليد النتائج...",
+    "جاري إعداد العرض النهائي..."
+];
+const loadingSubtitles = [
+    "الرجاء الانتظار...",
+    "جاري فحص معلومات الحساب...",
+    "جاري تحليل البيانات التاريخية...",
+    "جاري تشغيل نماذج التنبؤ...",
+    "جاري معالجة النتائج...",
+    "جاري إعداد تقرير التحليل...",
+    "شكراً لصبرك، النتائج جاهزة تقريباً..."
+];
 
 function selectPlatform(platform) {
     selectedPlatform = platform;
@@ -1363,6 +1570,9 @@ function selectPlatform(platform) {
     
     // تفعيل زر المتابعة
     document.getElementById('continueBtn').disabled = false;
+    
+    // تأثير صوتي (محاكاة)
+    playSoundEffect('select');
 }
 
 function continueToID() {
@@ -1371,8 +1581,230 @@ function continueToID() {
         return;
     }
     
-    // هنا يمكنك إضافة المزيد من الوظائف
-    showAlert('تم اختيار ' + (selectedPlatform === '1xbet' ? '1XBET' : 'MELBET'), 'success');
+    // عرض المنصة المختارة
+    const displayDiv = document.getElementById('selectedPlatformDisplay');
+    const platformName = selectedPlatform === '1xbet' ? '1XBET' : 'MELBET';
+    const imageSrc = selectedPlatform === '1xbet' ? '1.png' : '2.png';
+    
+    displayDiv.innerHTML = `
+        <img src="${imageSrc}" alt="${platformName}">
+        <span>${platformName}</span>
+    `;
+    
+    showScreen("start");
+    playSoundEffect('next');
+}
+
+function backToPlatformSelection() {
+    showScreen("platformSelection");
+    document.getElementById('uid').value = "";
+    playSoundEffect('back');
+}
+
+function startAnalysis() {
+    userID = document.getElementById('uid').value.trim();
+    
+    if (!selectedPlatform) {
+        showAlert('يرجى اختيار منصة المراهنات أولاً', 'warning');
+        backToPlatformSelection();
+        return;
+    }
+    
+    if (!userID) {
+        showAlert('يرجى إدخال معرف الحساب (ID)', 'warning');
+        document.getElementById('uid').focus();
+        return;
+    }
+    
+    // التحقق من صحة ID (محاكاة)
+    if (userID.length < 3) {
+        showAlert('معرف الحساب غير صالح', 'error');
+        return;
+    }
+    
+    showScreen("loading");
+    playSoundEffect('start');
+    
+    // تعيين معلومات المنصة وID
+    const platformName = selectedPlatform === '1xbet' ? '1XBET' : 'MELBET';
+    document.getElementById('platformInfo').textContent = platformName;
+    document.getElementById('userIdInfo').textContent = userID;
+    
+    // بدء عملية التحميل
+    startLoadingProcess();
+}
+
+function startLoadingProcess() {
+    let progress = 0;
+    let messageIndex = 0;
+    let timeLeft = 30;
+    
+    // تحديث الوقت المتبقي
+    const timeInterval = setInterval(() => {
+        timeLeft--;
+        if (timeLeft <= 0) timeLeft = 0;
+        document.getElementById('timeRemaining').textContent = `${timeLeft} ثانية`;
+    }, 1000);
+    
+    // محاكاة عملية التحميل
+    const interval = setInterval(() => {
+        // زيادة التقدم بطريقة غير خطية
+        if (progress < 30) {
+            progress += Math.random() * 8 + 2;
+        } else if (progress < 70) {
+            progress += Math.random() * 5 + 1;
+        } else if (progress < 95) {
+            progress += Math.random() * 3 + 0.5;
+        } else {
+            progress += Math.random() * 1 + 0.1;
+        }
+        
+        // تحديث شريط التقدم
+        if (progress > 100) progress = 100;
+        document.getElementById('progressBar').style.width = `${progress}%`;
+        document.getElementById('progressText').textContent = `${Math.floor(progress)}%`;
+        
+        // تغيير رسائل التحميل
+        if (progress > (messageIndex + 1) * (100 / loadingMessages.length)) {
+            if (messageIndex < loadingMessages.length - 1) {
+                messageIndex++;
+                document.getElementById('loadingTitle').textContent = loadingMessages[messageIndex];
+                document.getElementById('loadingSubtitle').textContent = loadingSubtitles[messageIndex];
+                playSoundEffect('progress');
+            }
+        }
+        
+        // اكتمال التحميل
+        if (progress >= 100) {
+            clearInterval(interval);
+            clearInterval(timeInterval);
+            
+            // التأخير قبل الانتقال للشاشة التالية
+            setTimeout(() => {
+                showScreen("game");
+                buildGameBoard();
+                playSoundEffect('complete');
+                showAlert('اكتمل التحليل بنجاح!', 'success');
+            }, 800);
+        }
+    }, 300);
+}
+
+function buildGameBoard() {
+    const board = document.getElementById('gameBoard');
+    board.innerHTML = '';
+    
+    // تعيين معلومات اللعبة
+    const platformName = selectedPlatform === '1xbet' ? '1XBET' : 'MELBET';
+    document.getElementById('gamePlatform').textContent = platformName;
+    document.getElementById('gameUserId').textContent = `ID: ${userID}`;
+    
+    // عرض المضاعفات من تحت لفوق (عكس الترتيب)
+    const reversedMultipliers = [...multipliers].reverse();
+    
+    reversedMultipliers.forEach((multiplier, index) => {
+        const row = document.createElement('div');
+        row.className = 'game-row';
+        row.style.animationDelay = `${index * 0.08}s`;
+        
+        // مضاعف
+        const multDiv = document.createElement('div');
+        multDiv.className = 'multiplier';
+        multDiv.textContent = multiplier;
+        
+        // حاوية التفاح
+        const applesContainer = document.createElement('div');
+        applesContainer.className = 'apples-container';
+        
+        // تحديد عدد التفاح الفاسد بناءً على المضاعف
+        let badCount;
+        const originalIndex = multipliers.length - 1 - index;
+        
+        if (originalIndex < 3) badCount = 1;
+        else if (originalIndex < 6) badCount = 2;
+        else if (originalIndex < 8) badCount = 3;
+        else badCount = 4;
+        
+        // تحديد مواقع التفاح الفاسد عشوائياً
+        const badPos = [];
+        while (badPos.length < badCount) {
+            const r = Math.floor(Math.random() * 5);
+            if (!badPos.includes(r)) badPos.push(r);
+        }
+        
+        // إنشاء التفاح
+        for (let i = 0; i < 5; i++) {
+            const apple = document.createElement('div');
+            const isBad = badPos.includes(i);
+            apple.className = `apple ${isBad ? 'bad' : 'good'}`;
+            
+            // إضافة الرموز (🍎 للتفاح الجيد، 🐛 للدودة)
+            apple.textContent = isBad ? "🐛" : "🍎";
+            
+            // إضافة تأثير النقر
+            apple.onclick = function() {
+                if (isBad) {
+                    this.style.transform = 'scale(0.8) rotate(180deg)';
+                    this.style.opacity = '0.5';
+                    playSoundEffect('bad');
+                } else {
+                    this.style.transform = 'scale(1.3)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 300);
+                    playSoundEffect('good');
+                }
+            };
+            
+            applesContainer.appendChild(apple);
+        }
+        
+        row.appendChild(multDiv);
+        row.appendChild(applesContainer);
+        board.appendChild(row);
+    });
+}
+
+function newGame() {
+    showScreen("start");
+    document.getElementById('uid').value = "";
+    playSoundEffect('new');
+}
+
+function exitGame() {
+    showScreen("platformSelection");
+    selectedPlatform = null;
+    userID = "";
+    document.querySelectorAll('.platform-card').forEach(card => {
+        card.classList.remove('active');
+    });
+    document.getElementById('continueBtn').disabled = true;
+    playSoundEffect('exit');
+}
+
+function playSoundEffect(type) {
+    try {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        
+        if (type === 'select') {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = 800;
+            oscillator.type = 'sine';
+            
+            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.2);
+        }
+    } catch (e) {
+        console.log("لا يدعم المتصفح Web Audio API");
+    }
 }
 
 // ===== مراقبة حالة تسجيل الدخول =====
@@ -1380,6 +1812,23 @@ auth.onAuthStateChanged((user) => {
     if (user) {
         // المستخدم مسجل الدخول، إظهار شاشة المنصة
         showScreen("platformSelection");
+        
+        // التحقق إذا كان هناك تايمر مخزن
+        const storedEndTime = localStorage.getItem('goldenAppleTimerEnd');
+        if (storedEndTime) {
+            const now = Math.floor(Date.now() / 1000);
+            const endTime = parseInt(storedEndTime);
+            
+            if (endTime > now) {
+                // التايمر لا يزال نشط، ابدأ التايمر
+                setTimeout(() => {
+                    startRealTimer();
+                }, 500);
+            } else {
+                // التايمر انتهى، سجل الخروج
+                auth.signOut();
+            }
+        }
     } else {
         // المستخدم غير مسجل، إظهار شاشة تسجيل الدخول
         showScreen("loginScreen");
@@ -1396,6 +1845,23 @@ window.onload = function() {
     document.getElementById('loginEmail').value = 'test@test.com';
     document.getElementById('loginPassword').value = 'test123';
     
+    // التحقق من وجود الصور
+    const img1 = document.getElementById('1xbet-img');
+    const img2 = document.getElementById('melbet-img');
+    
+    // إذا لم توجد الصور، استخدم نصوص بديلة
+    if (img1) {
+        img1.onerror = function() {
+            this.parentElement.innerHTML = '<i class="fas fa-dice" style="font-size: 2.5rem; color: #FF6B9D;"></i>';
+        };
+    }
+    
+    if (img2) {
+        img2.onerror = function() {
+            this.parentElement.innerHTML = '<i class="fas fa-coins" style="font-size: 2.5rem; color: #00DFA2;"></i>';
+        };
+    }
+    
     // السماح بالدخول عند الضغط على Enter في شاشة تسجيل الدخول
     document.getElementById('loginPassword').addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
@@ -1404,25 +1870,11 @@ window.onload = function() {
     });
 };
 
-// ===== للأغراض التعديل: هذه هي الدوال التي يمكنك تعديلها =====
+// ===== للأغراض التعديل =====
 /*
-// 1. لتغيير مدة التايمر (بالثواني):
-//    غير القيمة في السطر 691:
-//    let timerSeconds = 120; // دقيقتين
-//    أو استخدم الدالة:
-setTimerDuration(300); // 5 دقائق
-
-// 2. لإيقاف التايمر يدوياً:
-stopTimer();
-
-// 3. لبدء التايمر يدوياً:
-startTimer();
-
-// 4. لمعرفة الوقت المتبقي:
-console.log(timerSeconds + ' ثانية');
-
-// 5. لتغيير رسالة التايمر:
-document.getElementById('timerWarning').textContent = 'رسالتك الجديدة هنا';
+// لتغيير مدة التايمر (بالثواني):
+// غير القيمة في السطر 702:
+// const TIMER_DURATION = 7200; // ساعتين
 */
 </script>
 
