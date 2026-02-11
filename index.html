@@ -56,6 +56,22 @@ body {
     justify-content: center;
 }
 
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        linear-gradient(90deg, transparent 49%, rgba(255, 255, 255, 0.02) 50%, transparent 51%),
+        linear-gradient(transparent 49%, rgba(255, 255, 255, 0.02) 50%, transparent 51%);
+    background-size: 50px 50px;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.3;
+}
+
 /* ===== تحسين عرض الجوال ===== */
 @media (max-width: 480px) {
     body {
@@ -69,7 +85,7 @@ body {
     
     .platform-container, .login-container {
         padding: 20px 16px !important;
-        border-radius: 20px !important;
+        border-radius: 24px !important;
     }
 }
 
@@ -91,7 +107,80 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* ===== عداد الوقت الجديد - تصميم دائري أنيق للجوال ===== */
+/* ===== تأثير الجسيمات ===== */
+.particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: var(--primary);
+    border-radius: 50%;
+    opacity: 0.6;
+    animation: floating 15s infinite ease-in-out;
+}
+
+@keyframes floating {
+    0%, 100% { transform: translateY(0) translateX(0); }
+    25% { transform: translateY(-20px) translateX(10px); }
+    50% { transform: translateY(10px) translateX(-10px); }
+    75% { transform: translateY(-10px) translateX(20px); }
+}
+
+/* ===== الرسائل التنبيهية ===== */
+.alert {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(15, 10, 30, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    padding: 12px 25px;
+    color: var(--light);
+    font-weight: 500;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    font-size: 0.95rem;
+    text-align: center;
+    pointer-events: none;
+}
+
+.alert.show {
+    opacity: 1;
+}
+
+.alert.success {
+    background: rgba(0, 223, 162, 0.2);
+    border: 1px solid rgba(0, 223, 162, 0.4);
+    color: #fff;
+}
+
+.alert.error {
+    background: rgba(255, 71, 87, 0.2);
+    border: 1px solid rgba(255, 71, 87, 0.4);
+    color: #fff;
+}
+
+.alert.warning {
+    background: rgba(255, 209, 102, 0.2);
+    border: 1px solid rgba(255, 209, 102, 0.4);
+    color: #fff;
+}
+
+/* ===== عداد الوقت الدائري الأنيق ===== */
 .timer-container {
     position: fixed;
     top: 12px;
@@ -117,18 +206,16 @@ body {
 }
 
 .timer-box {
-    background: rgba(15, 10, 30, 0.98);
+    background: rgba(10, 6, 20, 0.98);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border-radius: 24px;
-    padding: 12px 16px;
-    border: 1.5px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 107, 157, 0.2);
+    border-radius: 100px;
+    padding: 8px 16px 8px 12px;
+    border: 1.5px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 107, 157, 0.2);
     display: flex;
-    flex-direction: row;
     align-items: center;
     gap: 10px;
-    min-width: auto;
     position: relative;
     overflow: hidden;
 }
@@ -144,19 +231,23 @@ body {
     animation: shimmer 3s infinite;
 }
 
-/* تأثير الساعة التناقصية */
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
 .timer-progress {
     position: relative;
-    width: 48px;
-    height: 48px;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .timer-progress-svg {
-    width: 48px;
-    height: 48px;
+    width: 44px;
+    height: 44px;
     transform: rotate(-90deg);
 }
 
@@ -173,7 +264,7 @@ body {
 .timer-progress-fill {
     stroke: url(#gradient);
     filter: drop-shadow(0 0 6px rgba(255, 107, 157, 0.6));
-    transition: stroke-dasharray 0.3s ease;
+    transition: stroke-dashoffset 0.5s ease;
 }
 
 .timer-icon {
@@ -181,6 +272,12 @@ body {
     font-size: 1.1rem;
     color: var(--primary);
     text-shadow: 0 0 10px rgba(255, 107, 157, 0.7);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
 }
 
 .timer-content {
@@ -190,29 +287,27 @@ body {
 }
 
 .timer-display {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     font-weight: 800;
     background: var(--gradient);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    line-height: 1;
+    line-height: 1.2;
     font-family: 'Courier New', monospace;
     letter-spacing: 1px;
-    text-shadow: 0 0 15px rgba(255, 107, 157, 0.5);
 }
 
 .timer-label {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     color: rgba(255, 255, 255, 0.9);
     font-weight: 500;
     background: rgba(255, 107, 157, 0.2);
-    padding: 3px 10px;
+    padding: 2px 10px;
     border-radius: 20px;
     margin-top: 2px;
 }
 
-/* حالة الخطر عند قرب الانتهاء */
 .timer-box.warning .timer-progress-fill {
     stroke: var(--warning);
     filter: drop-shadow(0 0 6px rgba(255, 209, 102, 0.7));
@@ -220,7 +315,9 @@ body {
 
 .timer-box.warning .timer-display {
     color: var(--warning);
-    text-shadow: 0 0 15px rgba(255, 209, 102, 0.7);
+    -webkit-background-clip: unset;
+    background-clip: unset;
+    background: none;
 }
 
 .timer-box.danger .timer-progress-fill {
@@ -230,7 +327,9 @@ body {
 
 .timer-box.danger .timer-display {
     color: var(--danger);
-    text-shadow: 0 0 15px rgba(255, 71, 87, 0.7);
+    -webkit-background-clip: unset;
+    background-clip: unset;
+    background: none;
 }
 
 .timer-box.danger .timer-label {
@@ -242,84 +341,598 @@ body {
     background: rgba(15, 10, 30, 0.95);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border-radius: 28px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 30px 24px;
+    border-radius: 32px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 32px 24px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
     position: relative;
     overflow: hidden;
     z-index: 1;
 }
 
-/* ===== المحتوى الرئيسي للجوال ===== */
+.login-container::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: var(--gradient);
+    opacity: 0.03;
+    z-index: -1;
+    animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.apple-icon {
+    font-size: 4rem;
+    margin-bottom: 15px;
+    display: inline-block;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.login-header h1 {
+    font-size: 1.9rem;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 10px;
+    font-weight: 800;
+}
+
+.login-header p {
+    color: #B0B0D0;
+    font-size: 0.95rem;
+    margin-bottom: 5px;
+}
+
+.login-subtitle {
+    color: #FFD700 !important;
+    font-weight: 600;
+    font-size: 1rem !important;
+}
+
+/* ===== حقول الإدخال ===== */
+.input-group {
+    margin-bottom: 20px;
+    text-align: right;
+}
+
+.input-label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--light);
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.input-field {
+    width: 100%;
+    padding: 14px 18px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1.5px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    color: var(--light);
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: rgba(255, 107, 157, 0.05);
+    box-shadow: 0 0 0 3px rgba(255, 107, 157, 0.1);
+}
+
+.input-field::placeholder {
+    color: rgba(136, 136, 170, 0.6);
+}
+
+/* ===== زر تسجيل الدخول ===== */
+.login-btn {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    background: var(--gradient);
+    border: none;
+    border-radius: 100px;
+    color: var(--light);
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.login-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(255, 107, 157, 0.4);
+}
+
+.login-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* ===== زر الواتساب ===== */
+.whatsapp-section {
+    margin: 25px 0 15px;
+    padding: 20px;
+    background: rgba(37, 211, 102, 0.08);
+    border-radius: 20px;
+    border: 1px solid rgba(37, 211, 102, 0.2);
+    text-align: center;
+}
+
+.whatsapp-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #25D366;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 100px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.whatsapp-btn:hover {
+    background: #1da851;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+}
+
+/* ===== رسائل الخطأ والنجاح ===== */
+.error-message {
+    background: rgba(255, 71, 87, 0.1);
+    border: 1px solid rgba(255, 71, 87, 0.3);
+    border-radius: 12px;
+    padding: 12px;
+    margin: 15px 0;
+    color: #ff8a8a;
+    font-size: 0.9rem;
+    display: none;
+    text-align: center;
+}
+
+.success-message {
+    background: rgba(0, 223, 162, 0.1);
+    border: 1px solid rgba(0, 223, 162, 0.3);
+    border-radius: 12px;
+    padding: 12px;
+    margin: 15px 0;
+    color: #a3ffd2;
+    font-size: 0.9rem;
+    display: none;
+    text-align: center;
+}
+
+/* ===== مؤشر التحميل ===== */
+.spinner {
+    display: none;
+    width: 24px;
+    height: 24px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: var(--primary);
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.button-loading .btn-text {
+    visibility: hidden;
+}
+
+.button-loading .spinner {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* ===== تذييل الصفحة ===== */
+.footer {
+    text-align: center;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    color: rgba(136, 136, 170, 0.8);
+    font-size: 0.8rem;
+}
+
+/* ===== المحتوى الرئيسي ===== */
 .platform-container {
     background: rgba(15, 10, 30, 0.95);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border-radius: 28px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 24px 20px;
+    border-radius: 32px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 28px 22px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
 }
 
-/* ===== بطاقات المنصات للجوال ===== */
+.platform-container::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: var(--gradient);
+    opacity: 0.03;
+    z-index: -1;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.header h1 {
+    font-size: 1.9rem;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 8px;
+    font-weight: 800;
+}
+
+.header p {
+    color: #B0B0D0;
+    font-size: 0.95rem;
+    font-weight: 300;
+}
+
+/* ===== بطاقات المنصات ===== */
 .platform-options {
     display: grid;
     grid-template-columns: 1fr;
     gap: 16px;
-    margin-bottom: 24px;
+    margin-bottom: 25px;
 }
 
 .platform-card {
     background: rgba(255, 255, 255, 0.03);
     border: 1.5px solid rgba(255, 255, 255, 0.08);
-    border-radius: 20px;
+    border-radius: 24px;
     padding: 16px;
     cursor: pointer;
     transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
     display: flex;
     align-items: center;
     gap: 16px;
 }
 
+.platform-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--primary);
+    background: rgba(255, 107, 157, 0.05);
+    box-shadow: 0 10px 25px rgba(255, 107, 157, 0.15);
+}
+
+.platform-card.active {
+    border-color: var(--success);
+    background: rgba(0, 223, 162, 0.08);
+    box-shadow: 0 10px 25px rgba(0, 223, 162, 0.15);
+}
+
 .platform-logo {
     width: 70px;
     height: 70px;
-    border-radius: 16px;
-    background: rgba(255, 255, 255, 0.05);
+    border-radius: 18px;
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    flex-shrink: 0;
+}
+
+.platform-logo img {
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+}
+
+.platform-logo i {
+    font-size: 2.2rem;
+}
+
+.platform-info {
+    flex: 1;
 }
 
 .platform-info h3 {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     margin-bottom: 4px;
+    color: var(--light);
+    font-weight: 700;
 }
 
 .platform-info p {
-    font-size: 0.85rem;
+    color: #B0B0D0;
+    font-size: 0.8rem;
+    font-weight: 300;
+    line-height: 1.4;
 }
 
-/* ===== لوحة اللعبة للجوال ===== */
-.game-board {
-    background: rgba(15, 6, 32, 0.8);
+.platform-check {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--success);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: scale(0);
+    transition: all 0.3s ease;
+}
+
+.platform-card.active .platform-check {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.platform-check i {
+    font-size: 12px;
+    color: var(--darker);
+}
+
+/* ===== الأزرار ===== */
+.btn {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 100px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    color: white;
+    background: var(--gradient);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(255, 107, 157, 0.4);
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn i {
+    margin-left: 10px;
+}
+
+/* ===== صفحة إدخال ID ===== */
+.back-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1.5px solid rgba(255, 255, 255, 0.08);
+    color: var(--light);
+    padding: 12px 20px;
+    border-radius: 100px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: fit-content;
+}
+
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--primary);
+}
+
+.selected-platform-display {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(255, 255, 255, 0.03);
     border-radius: 20px;
-    padding: 12px;
+    padding: 15px;
+    margin-bottom: 25px;
+    border: 1.5px solid rgba(255, 255, 255, 0.08);
+}
+
+.selected-platform-display img {
+    width: 55px;
+    height: 55px;
+    border-radius: 14px;
+    object-fit: contain;
+}
+
+.selected-platform-display span {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--light);
+}
+
+/* ===== شاشة التحميل ===== */
+.loading-screen {
+    text-align: center;
+}
+
+.loading-icon {
+    font-size: 3.5rem;
+    color: var(--primary);
+    margin-bottom: 15px;
+    display: inline-block;
+    animation: spin 2s linear infinite;
+}
+
+.loading-title {
+    font-size: 1.6rem;
+    margin-bottom: 8px;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 700;
+}
+
+.loading-subtitle {
+    color: #B0B0D0;
+    margin-bottom: 25px;
+    font-size: 0.95rem;
+}
+
+.progress-container {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 100px;
+    padding: 4px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.progress-bar {
+    height: 28px;
+    border-radius: 100px;
+    background: var(--gradient);
+    width: 0%;
+    transition: width 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: shimmer 2s infinite;
+}
+
+.progress-text {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--light);
+    margin-bottom: 25px;
+}
+
+.loading-details {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 20px;
+    padding: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    text-align: right;
+}
+
+.loading-details p {
+    margin-bottom: 8px;
+    color: #B0B0D0;
+    font-size: 0.9rem;
+}
+
+.loading-details span {
+    color: var(--light);
+    font-weight: 600;
+}
+
+/* ===== شاشة اللعبة ===== */
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.game-title {
+    font-size: 1.5rem;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 700;
+}
+
+.game-info {
+    display: flex;
+    gap: 10px;
+}
+
+.game-info-item {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 100px;
+    padding: 6px 14px;
+    font-size: 0.8rem;
+    color: var(--light);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    font-weight: 500;
+}
+
+/* ===== لوحة اللعبة ===== */
+.game-board {
+    background: rgba(15, 6, 32, 0.6);
+    border-radius: 24px;
+    padding: 16px;
     margin-bottom: 20px;
     border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
 }
 
 .board {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
 }
 
 .game-row {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     animation: rise 0.4s ease forwards;
     opacity: 0;
 }
@@ -330,33 +943,34 @@ body {
 }
 
 .multiplier {
-    width: 55px;
+    width: 58px;
     text-align: center;
-    background: linear-gradient(135deg, rgba(157, 78, 221, 0.3), rgba(255, 107, 157, 0.2));
-    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(157, 78, 221, 0.25), rgba(255, 107, 157, 0.2));
+    border-radius: 100px;
     padding: 6px 0;
     font-size: 0.8rem;
     font-weight: 700;
     color: white;
     border: 1px solid rgba(255, 255, 255, 0.1);
     flex-shrink: 0;
+    letter-spacing: 0.5px;
 }
 
 .apples-container {
     display: flex;
-    gap: 6px;
+    gap: 8px;
     flex: 1;
     justify-content: center;
 }
 
 .apple {
-    width: 42px;
-    height: 42px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     transition: all 0.2s ease;
     cursor: pointer;
     overflow: hidden;
@@ -367,11 +981,11 @@ body {
     .apple {
         width: 38px;
         height: 38px;
-        font-size: 1.2rem;
+        font-size: 1.3rem;
     }
     
     .multiplier {
-        width: 50px;
+        width: 52px;
         font-size: 0.75rem;
     }
 }
@@ -380,7 +994,7 @@ body {
     background: radial-gradient(circle at 30% 30%, #ff6b6b, #a30000);
     border: 2px solid #ff4d4d;
     color: white;
-    box-shadow: 0 0 10px rgba(255, 75, 75, 0.3);
+    box-shadow: 0 0 12px rgba(255, 75, 75, 0.4);
 }
 
 .apple.bad {
@@ -399,11 +1013,11 @@ body {
 }
 
 @keyframes pulseBad {
-    0%, 100% { box-shadow: 0 0 10px #2aff7b; }
-    50% { box-shadow: 0 0 20px #2aff7b, 0 0 30px #2aff7b; }
+    0%, 100% { box-shadow: 0 0 12px #2aff7b; }
+    50% { box-shadow: 0 0 22px #2aff7b, 0 0 35px #2aff7b; }
 }
 
-/* ===== أزرار التحكم للجوال ===== */
+/* ===== أزرار التحكم ===== */
 .game-controls {
     display: flex;
     gap: 12px;
@@ -413,52 +1027,93 @@ body {
 .control-btn {
     flex: 1;
     padding: 14px;
-    border-radius: 16px;
-    font-size: 1rem;
+    border-radius: 100px;
+    border: none;
+    font-size: 0.95rem;
     font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--light);
 }
 
 .control-btn:first-child {
     background: var(--gradient);
-    border: none;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* ===== تذييل الجوال ===== */
-.footer {
-    margin-top: 20px;
-    padding-top: 16px;
-    font-size: 0.8rem;
+.control-btn:last-child {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--light);
+    border: 1.5px solid rgba(255, 255, 255, 0.08);
 }
 
-/* ===== باقي التنسيقات محذوفة للاختصار ولكن محتفظين بالمهم ===== */
+.control-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== تأثيرات إضافية ===== */
+.floating {
+    animation: floating 3s ease-in-out infinite;
+}
+
+@keyframes floating {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+.highlight {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+/* ===== تحسينات إضافية للجوال ===== */
+@media (max-width: 350px) {
+    .apple {
+        width: 34px;
+        height: 34px;
+        font-size: 1.1rem;
+    }
+    
+    .multiplier {
+        width: 48px;
+        font-size: 0.7rem;
+    }
+    
+    .platform-logo {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .platform-info h3 {
+        font-size: 1.2rem;
+    }
+}
 </style>
 
 <!-- SVG Gradient للعداد -->
 <svg width="0" height="0">
     <defs>
         <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" style="stop-color:#FF6B9D;stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#9D4EDD;stop-opacity:1" />
+            <stop offset="0%" stop-color="#FF6B9D"/>
+            <stop offset="100%" stop-color="#9D4EDD"/>
         </linearGradient>
     </defs>
 </svg>
+</head>
 
 <body>
-
 <!-- تأثير الجسيمات -->
 <div class="particles" id="particles"></div>
 
 <!-- الرسائل التنبيهية -->
 <div class="alert" id="alert"></div>
 
-<!-- عداد الوقت الجديد - تصميم دائري أنيق -->
+<!-- عداد الوقت الدائري الأنيق -->
 <div class="timer-container" id="timerContainer">
     <div class="timer-box" id="timerBox">
         <div class="timer-progress">
@@ -577,9 +1232,7 @@ body {
             <p>أدخل ID حسابك للمتابعة إلى التحليل الذكي</p>
         </div>
         
-        <div class="selected-platform-display" id="selectedPlatformDisplay">
-            <!-- سيتم تعبئته ديناميكيًا -->
-        </div>
+        <div class="selected-platform-display" id="selectedPlatformDisplay"></div>
         
         <div class="input-group">
             <label class="input-label">معرف الحساب (ID)</label>
@@ -638,9 +1291,7 @@ body {
         </div>
         
         <div class="game-board">
-            <div class="board" id="gameBoard">
-                <!-- سيتم تعبئته ديناميكيًا -->
-            </div>
+            <div class="board" id="gameBoard"></div>
         </div>
         
         <div class="game-controls">
@@ -683,8 +1334,8 @@ const auth = firebase.auth();
 // ===== متغيرات عداد الوقت =====
 let timerInterval;
 let endTime = null;
-const TIMER_DURATION = 3600; // 60 دقيقة
-const CIRCLE_CIRCUMFERENCE = 138.23; // محيط الدائرة (2 * π * r) حيث r=22
+const TIMER_DURATION = 3600;
+const CIRCLE_CIRCUMFERENCE = 138.23;
 
 // ===== تهيئة الجسيمات =====
 function initParticles() {
@@ -694,22 +1345,14 @@ function initParticles() {
     for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
         particle.classList.add('particle');
-        
         particle.style.left = `${Math.random() * 100}%`;
         particle.style.top = `${Math.random() * 100}%`;
-        
         const size = Math.random() * 4 + 1;
         particle.style.width = `${size}px`;
         particle.style.height = `${size}px`;
-        
         const colors = ['#FF6B9D', '#9D4EDD', '#00DFA2'];
         particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        
         particle.style.opacity = Math.random() * 0.5 + 0.1;
-        
-        const duration = Math.random() * 15 + 10;
-        particle.style.animation = `floating ${duration}s infinite ease-in-out`;
-        
         particlesContainer.appendChild(particle);
     }
 }
@@ -719,10 +1362,7 @@ function showAlert(message, type = 'info', duration = 3000) {
     const alert = document.getElementById('alert');
     alert.textContent = message;
     alert.className = `alert ${type} show`;
-    
-    setTimeout(() => {
-        alert.classList.remove('show');
-    }, duration);
+    setTimeout(() => alert.classList.remove('show'), duration);
 }
 
 // ===== دوال مساعدة =====
@@ -745,8 +1385,6 @@ function showSuccess(message) {
 
 // ===== دالة تبديل الشاشات =====
 function showScreen(screenId) {
-    console.log(`🔄 تبديل الشاشة إلى: ${screenId}`);
-    
     document.querySelectorAll('.screen').forEach(screen => {
         screen.classList.remove('active');
         screen.style.display = 'none';
@@ -755,35 +1393,27 @@ function showScreen(screenId) {
     const targetScreen = document.getElementById(screenId);
     if (targetScreen) {
         targetScreen.style.display = 'block';
-        setTimeout(() => {
-            targetScreen.classList.add('active');
-        }, 10);
-        console.log(`✅ تم إظهار الشاشة: ${screenId}`);
+        setTimeout(() => targetScreen.classList.add('active'), 10);
     }
 }
 
 // ===== دالة بدء عداد الوقت =====
 function startTimer() {
-    console.log("⏳ بدء عداد الوقت...");
-    
     const storedEndTime = localStorage.getItem('goldenAppleTimerEnd');
+    const now = Math.floor(Date.now() / 1000);
     
     if (storedEndTime) {
         endTime = parseInt(storedEndTime);
-        const now = Math.floor(Date.now() / 1000);
-        
         if (endTime <= now) {
             endTime = now + TIMER_DURATION;
             localStorage.setItem('goldenAppleTimerEnd', endTime.toString());
         }
     } else {
-        const now = Math.floor(Date.now() / 1000);
         endTime = now + TIMER_DURATION;
         localStorage.setItem('goldenAppleTimerEnd', endTime.toString());
     }
     
     document.getElementById('timerContainer').classList.add('active');
-    
     updateTimer();
     timerInterval = setInterval(updateTimer, 1000);
 }
@@ -805,11 +1435,9 @@ function updateTimer() {
     updateTimerProgress(remainingSeconds);
 }
 
-// ===== تحديث عرض العداد =====
 function updateTimerDisplay(seconds) {
     const minutes = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    
     const displayTime = `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     document.getElementById('timerDisplay').textContent = displayTime;
     
@@ -829,38 +1457,25 @@ function updateTimerDisplay(seconds) {
     }
 }
 
-// ===== تحديث دائرة التقدم =====
 function updateTimerProgress(seconds) {
     const progressFill = document.getElementById('timerProgressFill');
     if (!progressFill) return;
     
-    const totalSeconds = TIMER_DURATION;
-    const remainingPercent = seconds / totalSeconds;
+    const remainingPercent = seconds / TIMER_DURATION;
     const dashOffset = CIRCLE_CIRCUMFERENCE * (1 - remainingPercent);
-    
     progressFill.style.strokeDasharray = CIRCLE_CIRCUMFERENCE;
     progressFill.style.strokeDashoffset = dashOffset;
 }
 
-// ===== دالة عند انتهاء الوقت =====
 function timerFinished() {
-    console.log("⏳ انتهى الوقت! تسجيل الخروج...");
-    
     localStorage.removeItem('goldenAppleTimerEnd');
     document.getElementById('timerContainer').classList.remove('active');
-    
     showAlert('انتهى الوقت! تم تسجيل الخروج تلقائياً', 'warning');
-    
     auth.signOut().catch(console.error);
 }
 
-// ===== إيقاف العداد =====
 function stopTimer() {
-    if (timerInterval) {
-        clearInterval(timerInterval);
-        timerInterval = null;
-    }
-    
+    if (timerInterval) clearInterval(timerInterval);
     localStorage.removeItem('goldenAppleTimerEnd');
     document.getElementById('timerContainer').classList.remove('active');
 }
@@ -869,12 +1484,10 @@ function stopTimer() {
 async function loginUser() {
     const email = document.getElementById('loginEmail').value.trim();
     const password = document.getElementById('loginPassword').value.trim();
-    const errorElement = document.getElementById('loginError');
-    const successElement = document.getElementById('loginSuccess');
     const loginBtn = document.getElementById('loginBtn');
     
-    errorElement.style.display = 'none';
-    successElement.style.display = 'none';
+    document.getElementById('loginError').style.display = 'none';
+    document.getElementById('loginSuccess').style.display = 'none';
     
     if (!email || !password) {
         showError('يرجى ملء جميع الحقول');
@@ -918,23 +1531,27 @@ async function loginUser() {
 // ===== دوال السكربت الرئيسي =====
 let selectedPlatform = null;
 let userID = "";
+
+// المضاعفات من الأصغر للأكبر - الصف الأول (تحت) أصغر مضاعف
 const multipliers = [
-    "x349.88", "x69.93", "x27.92", "x11.18",
-    "x6.71", "x4.02", "x2.41",
-    "x1.93", "x1.54", "x1.23"
-]; // مرتب من الأعلى للأكبر للأصغر
+    "x1.23",   // الصف الأول - تحت - تفاحة فاسدة واحدة
+    "x1.54",   // الصف الثاني
+    "x1.93",   // الصف الثالث
+    "x2.41",   // الصف الرابع
+    "x4.02",   // الصف الخامس
+    "x6.71",   // الصف السادس
+    "x11.18",  // الصف السابع
+    "x27.92",  // الصف الثامن
+    "x69.93",  // الصف التاسع
+    "x349.88"  // الصف العاشر - فوق - 4 تفاحات فاسدة
+];
 
 function selectPlatform(platform) {
     selectedPlatform = platform;
     
-    document.querySelectorAll('.platform-card').forEach(card => {
-        card.classList.remove('active');
-    });
+    document.querySelectorAll('.platform-card').forEach(card => card.classList.remove('active'));
     
-    const platformCard = platform === '1xbet' 
-        ? document.getElementById('platform1xbet') 
-        : document.getElementById('platformMelbet');
-    
+    const platformCard = platform === '1xbet' ? document.getElementById('platform1xbet') : document.getElementById('platformMelbet');
     platformCard.classList.add('active');
     document.getElementById('continueBtn').disabled = false;
 }
@@ -949,11 +1566,7 @@ function continueToID() {
     const platformName = selectedPlatform === '1xbet' ? '1XBET' : 'MELBET';
     const imageSrc = selectedPlatform === '1xbet' ? '1.png' : '2.png';
     
-    displayDiv.innerHTML = `
-        <img src="${imageSrc}" alt="${platformName}">
-        <span>${platformName}</span>
-    `;
-    
+    displayDiv.innerHTML = `<img src="${imageSrc}" alt="${platformName}"><span>${platformName}</span>`;
     showScreen("start");
 }
 
@@ -987,7 +1600,6 @@ function startAnalysis() {
 
 function startLoadingProcess() {
     let progress = 0;
-    let messageIndex = 0;
     let timeLeft = 30;
     
     const timeInterval = setInterval(() => {
@@ -1005,7 +1617,6 @@ function startLoadingProcess() {
         if (progress >= 100) {
             clearInterval(interval);
             clearInterval(timeInterval);
-            
             setTimeout(() => {
                 showScreen("game");
                 buildGameBoard();
@@ -1016,6 +1627,8 @@ function startLoadingProcess() {
 }
 
 // ===== دالة بناء لوحة اللعبة - صفوف من تحت لفوق =====
+// الصف الأول (في الأسفل) = مضاعف صغير = تفاحة فاسدة واحدة
+// الصف العاشر (في الأعلى) = مضاعف كبير = 4 تفاحات فاسدة
 function buildGameBoard() {
     const board = document.getElementById('gameBoard');
     board.innerHTML = '';
@@ -1024,51 +1637,61 @@ function buildGameBoard() {
     document.getElementById('gamePlatform').textContent = platformName;
     document.getElementById('gameUserId').textContent = `ID: ${userID}`;
     
-    // عرض المضاعفات بالترتيب الطبيعي (من تحت لفوق)
-    // الصف الأول (تحت) = أصغر مضاعف، الصف الأخير (فوق) = أكبر مضاعف
+    // عرض المضاعفات بالترتيب الطبيعي - من تحت لفوق
+    // أول عنصر في المصفوفة = الصف الأول (تحت)
     multipliers.forEach((multiplier, index) => {
         const row = document.createElement('div');
         row.className = 'game-row';
         row.style.animationDelay = `${index * 0.06}s`;
         
+        // عنصر المضاعف
         const multDiv = document.createElement('div');
         multDiv.className = 'multiplier';
         multDiv.textContent = multiplier;
         
+        // حاوية التفاح
         const applesContainer = document.createElement('div');
         applesContainer.className = 'apples-container';
         
-        // تحديد عدد التفاح الفاسد
+        // تحديد عدد التفاح الفاسد - يزيد كلما ارتفعنا للأعلى
         let badCount;
-        if (index < 3) badCount = 1;        // الصفوف الأولى (تحت) - أقل مضاعف
-        else if (index < 6) badCount = 2;
-        else if (index < 8) badCount = 3;
-        else badCount = 4;                  // الصفوف الأخيرة (فوق) - أعلى مضاعف
+        if (index < 3) badCount = 1;        // الصفوف 1-3 (تحت) - تفاحة فاسدة واحدة
+        else if (index < 6) badCount = 2;    // الصفوف 4-6 - تفاحتان فاسدتان
+        else if (index < 8) badCount = 3;    // الصفوف 7-8 - 3 تفاحات فاسدة
+        else badCount = 4;                  // الصفوف 9-10 (فوق) - 4 تفاحات فاسدة
         
+        // اختيار مواقع عشوائية للتفاح الفاسد
         const badPos = [];
         while (badPos.length < badCount) {
             const r = Math.floor(Math.random() * 5);
             if (!badPos.includes(r)) badPos.push(r);
         }
         
+        // إنشاء 5 تفاحات في كل صف
         for (let i = 0; i < 5; i++) {
             const apple = document.createElement('div');
             const isBad = badPos.includes(i);
             apple.className = `apple ${isBad ? 'bad' : 'good'}`;
             
             if (isBad) {
+                // التفاحة الفاسدة - صورة 3.png
                 const img = document.createElement('img');
                 img.src = '3.png';
                 img.alt = 'تفاحة فاسدة';
                 img.onerror = function() {
                     this.parentElement.innerHTML = '🐛';
                     this.parentElement.style.fontSize = '1.8rem';
+                    this.parentElement.style.display = 'flex';
+                    this.parentElement.style.alignItems = 'center';
+                    this.parentElement.style.justifyContent = 'center';
                 };
                 apple.appendChild(img);
             } else {
+                // التفاحة الجيدة - 🍏
                 apple.textContent = '🍏';
             }
             
+            // تأثير النقر على التفاحة
             apple.onclick = function(e) {
                 e.stopPropagation();
                 if (isBad) {
@@ -1078,12 +1701,10 @@ function buildGameBoard() {
                         this.style.transform = 'scale(1)';
                         this.style.opacity = '1';
                     }, 300);
-                    showAlert('وجدت تفاحة فاسدة!', 'warning', 1000);
+                    showAlert('تفاحة فاسدة! 🐛', 'warning', 1000);
                 } else {
                     this.style.transform = 'scale(1.2)';
-                    setTimeout(() => {
-                        this.style.transform = 'scale(1)';
-                    }, 200);
+                    setTimeout(() => this.style.transform = 'scale(1)', 200);
                     showAlert('تفاحة جيدة! 🍏', 'success', 800);
                 }
             };
@@ -1106,9 +1727,7 @@ function exitGame() {
     showScreen("platformSelection");
     selectedPlatform = null;
     userID = "";
-    document.querySelectorAll('.platform-card').forEach(card => {
-        card.classList.remove('active');
-    });
+    document.querySelectorAll('.platform-card').forEach(card => card.classList.remove('active'));
     document.getElementById('continueBtn').disabled = true;
 }
 
@@ -1120,11 +1739,8 @@ auth.onAuthStateChanged((user) => {
         if (storedEndTime) {
             const now = Math.floor(Date.now() / 1000);
             const endTime = parseInt(storedEndTime);
-            if (endTime > now) {
-                setTimeout(startTimer, 500);
-            } else {
-                auth.signOut();
-            }
+            if (endTime > now) setTimeout(startTimer, 500);
+            else auth.signOut();
         }
     } else {
         showScreen("loginScreen");
@@ -1136,6 +1752,7 @@ auth.onAuthStateChanged((user) => {
 window.onload = function() {
     initParticles();
     
+    // بيانات اختبار
     document.getElementById('loginEmail').value = 'test@test.com';
     document.getElementById('loginPassword').value = 'test123';
     
