@@ -86,7 +86,7 @@ body::before {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* ===== عداد الوقت الجديد - مربع صغير للدقائق ===== */
+/* ===== عداد الوقت ===== */
 .timer-container {
     position: fixed;
     top: 20px;
@@ -703,11 +703,6 @@ body::before {
     animation: shimmer 2s infinite;
 }
 
-@keyframes shimmer {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-}
-
 .progress-text {
     font-size: 1.5rem;
     font-weight: 700;
@@ -823,6 +818,8 @@ body::before {
     font-size: 1.5rem;
     transition: transform 0.3s;
     cursor: pointer;
+    overflow: hidden;
+    position: relative;
 }
 
 .apple:hover {
@@ -832,13 +829,24 @@ body::before {
 .apple.good {
     background: radial-gradient(circle, #ff4d4d, #a30000);
     border: 2px solid #ff3333;
+    color: white;
+    font-size: 1.8rem;
 }
 
+/* ===== تنسيق التفاحة الفاسدة بالصورة ===== */
 .apple.bad {
     background: radial-gradient(circle, #4dff9a, #0f4d2a);
     border: 2px solid #2aff7b;
     box-shadow: 0 0 10px #2aff7b;
     animation: pulseBad 1.5s infinite;
+    padding: 0;
+}
+
+.apple.bad img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
 }
 
 @keyframes pulseBad {
@@ -1012,7 +1020,7 @@ body::before {
 <!-- الرسائل التنبيهية -->
 <div class="alert" id="alert"></div>
 
-<!-- عداد الوقت الجديد - مربع صغير للدقائق والثواني -->
+<!-- عداد الوقت -->
 <div class="timer-container" id="timerContainer">
     <div class="timer-box" id="timerBox">
         <div class="timer-icon">
@@ -1183,7 +1191,6 @@ body::before {
             </div>
         </div>
         
-        <!-- التصميم الجديد للتفاح -->
         <div class="game-board">
             <div class="board" id="gameBoard">
                 <!-- سيتم تعبئته ديناميكيًا -->
@@ -1230,8 +1237,7 @@ const auth = firebase.auth();
 // ===== متغيرات عداد الوقت =====
 let timerInterval;
 let endTime = null;
-const TIMER_DURATION = 60; // 60 دقيقة (3600 ثانية)
-// يمكنك تغيير المدة بسهولة: مثلاً 1800 = 30 دقيقة، 7200 = ساعتين
+const TIMER_DURATION = 3600; // 60 دقيقة (3600 ثانية)
 
 // ===== تهيئة الجسيمات =====
 function initParticles() {
@@ -1294,13 +1300,11 @@ function showSuccess(message) {
 function showScreen(screenId) {
     console.log(`🔄 تبديل الشاشة إلى: ${screenId}`);
     
-    // إخفاء جميع الشاشات
     document.querySelectorAll('.screen').forEach(screen => {
         screen.classList.remove('active');
         screen.style.display = 'none';
     });
     
-    // إظهار الشاشة المطلوبة
     const targetScreen = document.getElementById(screenId);
     if (targetScreen) {
         targetScreen.style.display = 'block';
@@ -1313,35 +1317,28 @@ function showScreen(screenId) {
     }
 }
 
-// ===== دالة بدء عداد الوقت (الدقائق والثواني) =====
+// ===== دالة بدء عداد الوقت =====
 function startTimer() {
     console.log("⏳ بدء عداد الوقت...");
     
-    // التحقق إذا كان هناك عداد سابق مخزن
     const storedEndTime = localStorage.getItem('goldenAppleTimerEnd');
     
     if (storedEndTime) {
-        // هناك عداد سابق، استخدمه
         endTime = parseInt(storedEndTime);
         const now = Math.floor(Date.now() / 1000);
         
-        // التحقق إذا كان العداد السابق قد انتهى
         if (endTime <= now) {
-            // العداد السابق انتهى، ابدأ واحد جديد
             endTime = now + TIMER_DURATION;
             localStorage.setItem('goldenAppleTimerEnd', endTime.toString());
         }
     } else {
-        // لا يوجد عداد سابق، ابدأ واحد جديد
         const now = Math.floor(Date.now() / 1000);
         endTime = now + TIMER_DURATION;
         localStorage.setItem('goldenAppleTimerEnd', endTime.toString());
     }
     
-    // إظهار عداد الوقت
     document.getElementById('timerContainer').classList.add('active');
     
-    // بدء تحديث العداد
     updateTimer();
     timerInterval = setInterval(updateTimer, 1000);
 }
@@ -1354,34 +1351,30 @@ function updateTimer() {
     let remainingSeconds = endTime - now;
     
     if (remainingSeconds <= 0) {
-        // الوقت انتهى
         clearInterval(timerInterval);
         timerFinished();
         return;
     }
     
-    // تحديث العرض (الدقائق:الثواني)
     updateTimerDisplay(remainingSeconds);
 }
 
-// ===== تحديث عرض العداد (الدقائق والثواني) =====
+// ===== تحديث عرض العداد =====
 function updateTimerDisplay(seconds) {
     const minutes = Math.floor(seconds / 60);
     const secs = seconds % 60;
     
-    // تنسيق العرض: دقائق:ثواني (مثال: 59:45)
     const displayTime = `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     document.getElementById('timerDisplay').textContent = displayTime;
     
-    // تغيير لون العداد حسب الوقت المتبقي
     const timerBox = document.getElementById('timerBox');
     
-    if (seconds <= 60) { // أقل من دقيقة واحدة
+    if (seconds <= 60) {
         timerBox.classList.add('danger');
         timerBox.classList.remove('warning');
         document.getElementById('timerLabel').textContent = 'ينتهي الآن!';
         document.getElementById('timerLabel').style.color = '#FF4757';
-    } else if (seconds <= 300) { // أقل من 5 دقائق
+    } else if (seconds <= 300) {
         timerBox.classList.add('warning');
         timerBox.classList.remove('danger');
         document.getElementById('timerLabel').textContent = 'الوقت ينفد!';
@@ -1397,16 +1390,11 @@ function updateTimerDisplay(seconds) {
 function timerFinished() {
     console.log("⏳ انتهى الوقت! تسجيل الخروج...");
     
-    // مسح العداد من التخزين
     localStorage.removeItem('goldenAppleTimerEnd');
-    
-    // إخفاء عداد الوقت
     document.getElementById('timerContainer').classList.remove('active');
     
-    // إظهار رسالة
     showAlert('انتهى الوقت! تم تسجيل الخروج تلقائياً', 'warning');
     
-    // تسجيل الخروج من Firebase
     auth.signOut().catch((error) => {
         console.error('خطأ في تسجيل الخروج:', error);
     });
@@ -1419,14 +1407,11 @@ function stopTimer() {
         timerInterval = null;
     }
     
-    // مسح العداد من التخزين
     localStorage.removeItem('goldenAppleTimerEnd');
-    
-    // إخفاء عداد الوقت
     document.getElementById('timerContainer').classList.remove('active');
 }
 
-// ===== تسجيل الدخول مع Firebase - الإصدار المعدل =====
+// ===== تسجيل الدخول مع Firebase =====
 async function loginUser() {
     const email = document.getElementById('loginEmail').value.trim();
     const password = document.getElementById('loginPassword').value.trim();
@@ -1434,42 +1419,34 @@ async function loginUser() {
     const successElement = document.getElementById('loginSuccess');
     const loginBtn = document.getElementById('loginBtn');
     
-    // إخفاء الرسائل السابقة
     errorElement.style.display = 'none';
     successElement.style.display = 'none';
     
-    // التحقق من الحقول
     if (!email || !password) {
         showError('يرجى ملء جميع الحقول');
         return;
     }
     
-    // التحقق من صحة البريد الإلكتروني
     if (!isValidEmail(email)) {
         showError('البريد الإلكتروني غير صالح');
         return;
     }
     
-    // عرض حالة التحميل
     loginBtn.classList.add('button-loading');
     loginBtn.disabled = true;
     
     try {
         console.log("🔐 محاولة تسجيل الدخول...");
         
-        // تسجيل الدخول باستخدام Firebase
         const userCredential = await auth.signInWithEmailAndPassword(email, password);
         
         console.log("✅ تسجيل الدخول ناجح:", userCredential.user.email);
         
-        // تسجيل الدخول ناجح
         showSuccess('تم تسجيل الدخول بنجاح! جاري التحميل...');
         
-        // الانتقال إلى شاشة المنصة مباشرة
         setTimeout(() => {
             showScreen("platformSelection");
             
-            // بدء عداد الوقت بعد ظهور المحتوى
             setTimeout(() => {
                 startTimer();
                 showAlert('بدأ عداد الوقت! لديك 60 دقيقة لاستخدام السكربت', 'success');
@@ -1480,11 +1457,9 @@ async function loginUser() {
     } catch (error) {
         console.error("❌ خطأ في تسجيل الدخول:", error);
         
-        // إخفاء حالة التحميل
         loginBtn.classList.remove('button-loading');
         loginBtn.disabled = false;
         
-        // معالجة أخطاء Firebase
         let errorMessage = 'حدث خطأ أثناء تسجيل الدخول';
         
         switch (error.code) {
@@ -1545,22 +1520,18 @@ const loadingSubtitles = [
 function selectPlatform(platform) {
     selectedPlatform = platform;
     
-    // إزالة التحديد السابق
     document.querySelectorAll('.platform-card').forEach(card => {
         card.classList.remove('active');
     });
     
-    // إضافة التحديد للمنصة المختارة
     const platformCard = platform === '1xbet' 
         ? document.getElementById('platform1xbet') 
         : document.getElementById('platformMelbet');
     
     platformCard.classList.add('active');
     
-    // تفعيل زر المتابعة
     document.getElementById('continueBtn').disabled = false;
     
-    // تأثير صوتي (محاكاة)
     playSoundEffect('select');
 }
 
@@ -1570,7 +1541,6 @@ function continueToID() {
         return;
     }
     
-    // عرض المنصة المختارة
     const displayDiv = document.getElementById('selectedPlatformDisplay');
     const platformName = selectedPlatform === '1xbet' ? '1XBET' : 'MELBET';
     const imageSrc = selectedPlatform === '1xbet' ? '1.png' : '2.png';
@@ -1605,7 +1575,6 @@ function startAnalysis() {
         return;
     }
     
-    // التحقق من صحة ID (محاكاة)
     if (userID.length < 3) {
         showAlert('معرف الحساب غير صالح', 'error');
         return;
@@ -1614,12 +1583,10 @@ function startAnalysis() {
     showScreen("loading");
     playSoundEffect('start');
     
-    // تعيين معلومات المنصة وID
     const platformName = selectedPlatform === '1xbet' ? '1XBET' : 'MELBET';
     document.getElementById('platformInfo').textContent = platformName;
     document.getElementById('userIdInfo').textContent = userID;
     
-    // بدء عملية التحميل
     startLoadingProcess();
 }
 
@@ -1628,16 +1595,13 @@ function startLoadingProcess() {
     let messageIndex = 0;
     let timeLeft = 30;
     
-    // تحديث الوقت المتبقي
     const timeInterval = setInterval(() => {
         timeLeft--;
         if (timeLeft <= 0) timeLeft = 0;
         document.getElementById('timeRemaining').textContent = `${timeLeft} ثانية`;
     }, 1000);
     
-    // محاكاة عملية التحميل
     const interval = setInterval(() => {
-        // زيادة التقدم بطريقة غير خطية
         if (progress < 30) {
             progress += Math.random() * 8 + 2;
         } else if (progress < 70) {
@@ -1648,12 +1612,10 @@ function startLoadingProcess() {
             progress += Math.random() * 1 + 0.1;
         }
         
-        // تحديث شريط التقدم
         if (progress > 100) progress = 100;
         document.getElementById('progressBar').style.width = `${progress}%`;
         document.getElementById('progressText').textContent = `${Math.floor(progress)}%`;
         
-        // تغيير رسائل التحميل
         if (progress > (messageIndex + 1) * (100 / loadingMessages.length)) {
             if (messageIndex < loadingMessages.length - 1) {
                 messageIndex++;
@@ -1663,12 +1625,10 @@ function startLoadingProcess() {
             }
         }
         
-        // اكتمال التحميل
         if (progress >= 100) {
             clearInterval(interval);
             clearInterval(timeInterval);
             
-            // التأخير قبل الانتقال للشاشة التالية
             setTimeout(() => {
                 showScreen("game");
                 buildGameBoard();
@@ -1679,16 +1639,15 @@ function startLoadingProcess() {
     }, 300);
 }
 
+// ===== دالة بناء لوحة اللعبة - مع صورة التفاحة الفاسدة =====
 function buildGameBoard() {
     const board = document.getElementById('gameBoard');
     board.innerHTML = '';
     
-    // تعيين معلومات اللعبة
     const platformName = selectedPlatform === '1xbet' ? '1XBET' : 'MELBET';
     document.getElementById('gamePlatform').textContent = platformName;
     document.getElementById('gameUserId').textContent = `ID: ${userID}`;
     
-    // عرض المضاعفات من تحت لفوق (عكس الترتيب)
     const reversedMultipliers = [...multipliers].reverse();
     
     reversedMultipliers.forEach((multiplier, index) => {
@@ -1696,41 +1655,51 @@ function buildGameBoard() {
         row.className = 'game-row';
         row.style.animationDelay = `${index * 0.08}s`;
         
-        // مضاعف
         const multDiv = document.createElement('div');
         multDiv.className = 'multiplier';
         multDiv.textContent = multiplier;
         
-        // حاوية التفاح
         const applesContainer = document.createElement('div');
         applesContainer.className = 'apples-container';
         
-        // تحديد عدد التفاح الفاسد بناءً على المضاعف
-        let badCount;
         const originalIndex = multipliers.length - 1 - index;
         
+        let badCount;
         if (originalIndex < 3) badCount = 1;
         else if (originalIndex < 6) badCount = 2;
         else if (originalIndex < 8) badCount = 3;
         else badCount = 4;
         
-        // تحديد مواقع التفاح الفاسد عشوائياً
         const badPos = [];
         while (badPos.length < badCount) {
             const r = Math.floor(Math.random() * 5);
             if (!badPos.includes(r)) badPos.push(r);
         }
         
-        // إنشاء التفاح
         for (let i = 0; i < 5; i++) {
             const apple = document.createElement('div');
             const isBad = badPos.includes(i);
             apple.className = `apple ${isBad ? 'bad' : 'good'}`;
             
-            // إضافة الرموز (🍎 للتفاح الجيد، 🐛 للدودة)
-            apple.textContent = isBad ? "🍎" : "🍏";
+            if (isBad) {
+                // التفاحة الفاسدة - صورة 3.png
+                const img = document.createElement('img');
+                img.src = '3.png';
+                img.alt = 'تفاحة فاسدة';
+                img.onerror = function() {
+                    // في حالة عدم وجود الصورة، عرض أيقونة بديلة
+                    this.parentElement.innerHTML = '🐛';
+                    this.parentElement.style.fontSize = '1.8rem';
+                    this.parentElement.style.display = 'flex';
+                    this.parentElement.style.alignItems = 'center';
+                    this.parentElement.style.justifyContent = 'center';
+                };
+                apple.appendChild(img);
+            } else {
+                // التفاحة الجيدة - إيموجي 🍏
+                apple.textContent = '🍏';
+            }
             
-            // إضافة تأثير النقر
             apple.onclick = function() {
                 if (isBad) {
                     this.style.transform = 'scale(0.8) rotate(180deg)';
@@ -1801,29 +1770,23 @@ auth.onAuthStateChanged((user) => {
     console.log("👤 حالة تسجيل الدخول:", user ? "مسجل" : "غير مسجل");
     
     if (user) {
-        // المستخدم مسجل الدخول، إظهار شاشة المنصة
         showScreen("platformSelection");
         
-        // التحقق إذا كان هناك عداد مخزن
         const storedEndTime = localStorage.getItem('goldenAppleTimerEnd');
         if (storedEndTime) {
             const now = Math.floor(Date.now() / 1000);
             const endTime = parseInt(storedEndTime);
             
             if (endTime > now) {
-                // العداد لا يزال نشط، ابدأ عداد الوقت
                 setTimeout(() => {
                     startTimer();
                 }, 500);
             } else {
-                // العداد انتهى، سجل الخروج
                 auth.signOut();
             }
         }
     } else {
-        // المستخدم غير مسجل، إظهار شاشة تسجيل الدخول
         showScreen("loginScreen");
-        // إيقاف عداد الوقت إذا كان يعمل
         stopTimer();
     }
 });
@@ -1834,15 +1797,12 @@ window.onload = function() {
     
     initParticles();
     
-    // إضافة بيانات اختبار في حقول الإدخال (لتسهيل التجربة)
     document.getElementById('loginEmail').value = 'test@test.com';
     document.getElementById('loginPassword').value = 'test123';
     
-    // التحقق من وجود الصور
     const img1 = document.getElementById('1xbet-img');
     const img2 = document.getElementById('melbet-img');
     
-    // إذا لم توجد الصور، استخدم نصوص بديلة
     if (img1) {
         img1.onerror = function() {
             this.parentElement.innerHTML = '<i class="fas fa-dice" style="font-size: 2.5rem; color: #FF6B9D;"></i>';
@@ -1855,14 +1815,12 @@ window.onload = function() {
         };
     }
     
-    // السماح بالدخول عند الضغط على Enter في شاشة تسجيل الدخول
     document.getElementById('loginPassword').addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             loginUser();
         }
     });
     
-    // إظهار الشاشة المناسبة مباشرة
     const user = auth.currentUser;
     if (user) {
         showScreen("platformSelection");
@@ -1870,18 +1828,6 @@ window.onload = function() {
         showScreen("loginScreen");
     }
 };
-
-// ===== لتغيير مدة العداد بسهولة =====
-/*
-    المدة الحالية: 60 دقيقة (3600 ثانية)
-    لتغيير المدة، غير القيمة في السطر 645:
-    const TIMER_DURATION = 3600; // 60 دقيقة
-    
-    أمثلة:
-    const TIMER_DURATION = 1800; // 30 دقيقة
-    const TIMER_DURATION = 7200; // ساعتين
-    const TIMER_DURATION = 300;  // 5 دقائق
-*/
 </script>
 
 </body>
