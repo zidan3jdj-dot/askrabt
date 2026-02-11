@@ -1258,12 +1258,18 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+try {
+    firebase.initializeApp(firebaseConfig);
+    console.log("✅ Firebase initialized successfully");
+} catch (error) {
+    console.error("❌ Firebase initialization error:", error);
+}
+
 const auth = firebase.auth();
 
 // ===== متغيرات التايمر =====
 let timerInterval;
-let endTime = null; // سيتم تخزين وقت الانتهاء
+let endTime = null;
 const TIMER_DURATION = 3600; // 1 ساعة = 3600 ثانية
 
 // ===== تهيئة الجسيمات =====
@@ -1321,6 +1327,29 @@ function showSuccess(message) {
     const successElement = document.getElementById('loginSuccess');
     successElement.textContent = message;
     successElement.style.display = 'block';
+}
+
+// ===== دالة تبديل الشاشات =====
+function showScreen(screenId) {
+    console.log(`🔄 تبديل الشاشة إلى: ${screenId}`);
+    
+    // إخفاء جميع الشاشات
+    document.querySelectorAll('.screen').forEach(screen => {
+        screen.classList.remove('active');
+        screen.style.display = 'none';
+    });
+    
+    // إظهار الشاشة المطلوبة
+    const targetScreen = document.getElementById(screenId);
+    if (targetScreen) {
+        targetScreen.style.display = 'block';
+        setTimeout(() => {
+            targetScreen.classList.add('active');
+        }, 10);
+        console.log(`✅ تم إظهار الشاشة: ${screenId}`);
+    } else {
+        console.error(`❌ الشاشة غير موجودة: ${screenId}`);
+    }
 }
 
 // ===== دالة بدء التايمر الحقيقي =====
@@ -1450,7 +1479,7 @@ function stopTimer() {
     document.getElementById('hourglassContainer').classList.remove('active');
 }
 
-// ===== تسجيل الدخول مع Firebase =====
+// ===== تسجيل الدخول مع Firebase - الإصدار المعدل =====
 async function loginUser() {
     const email = document.getElementById('loginEmail').value.trim();
     const password = document.getElementById('loginPassword').value.trim();
@@ -1479,17 +1508,17 @@ async function loginUser() {
     loginBtn.disabled = true;
     
     try {
+        console.log("🔐 محاولة تسجيل الدخول...");
+        
         // تسجيل الدخول باستخدام Firebase
         const userCredential = await auth.signInWithEmailAndPassword(email, password);
         
+        console.log("✅ تسجيل الدخول ناجح:", userCredential.user.email);
+        
         // تسجيل الدخول ناجح
-        showSuccess('تم تسجيل الدخول بنجاح! جاري تحميل السكربت...');
+        showSuccess('تم تسجيل الدخول بنجاح! جاري التحميل...');
         
-        // إخفاء حالة التحميل
-        loginBtn.classList.remove('button-loading');
-        loginBtn.disabled = false;
-        
-        // الانتقال إلى شاشة المنصة بعد 2 ثانية
+        // الانتقال إلى شاشة المنصة مباشرة
         setTimeout(() => {
             showScreen("platformSelection");
             
@@ -1499,9 +1528,11 @@ async function loginUser() {
                 showAlert('بدأ التايمر! لديك ساعة واحدة لاستخدام السكربت', 'success');
             }, 500);
             
-        }, 2000);
+        }, 1500);
         
     } catch (error) {
+        console.error("❌ خطأ في تسجيل الدخول:", error);
+        
         // إخفاء حالة التحميل
         loginBtn.classList.remove('button-loading');
         loginBtn.disabled = false;
@@ -1820,6 +1851,8 @@ function playSoundEffect(type) {
 
 // ===== مراقبة حالة تسجيل الدخول =====
 auth.onAuthStateChanged((user) => {
+    console.log("👤 حالة تسجيل الدخول:", user ? "مسجل" : "غير مسجل");
+    
     if (user) {
         // المستخدم مسجل الدخول، إظهار شاشة المنصة
         showScreen("platformSelection");
@@ -1850,6 +1883,8 @@ auth.onAuthStateChanged((user) => {
 
 // ===== تهيئة الصفحة عند التحميل =====
 window.onload = function() {
+    console.log("🚀 تم تحميل الصفحة");
+    
     initParticles();
     
     // إضافة بيانات اختبار في حقول الإدخال (لتسهيل التجربة)
@@ -1879,6 +1914,14 @@ window.onload = function() {
             loginUser();
         }
     });
+    
+    // إظهار الشاشة المناسبة مباشرة
+    const user = auth.currentUser;
+    if (user) {
+        showScreen("platformSelection");
+    } else {
+        showScreen("loginScreen");
+    }
 };
 
 // ===== للأغراض التعديل =====
