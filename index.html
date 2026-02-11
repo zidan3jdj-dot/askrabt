@@ -1237,7 +1237,7 @@ const auth = firebase.auth();
 // ===== متغيرات عداد الوقت =====
 let timerInterval;
 let endTime = null;
-const TIMER_DURATION = 3600; // 60 دقيقة (3600 ثانية)
+const TIMER_DURATION = 40; // 60 دقيقة (3600 ثانية)
 
 // ===== تهيئة الجسيمات =====
 function initParticles() {
@@ -1696,8 +1696,8 @@ function buildGameBoard() {
                 };
                 apple.appendChild(img);
             } else {
-                // التفاحة الجيدة - إيموجي 🍏
-                apple.textContent = '🍏';
+                // التفاحة الجيدة - إيموجي 🍎
+                apple.textContent = '🍎';
             }
             
             apple.onclick = function() {
